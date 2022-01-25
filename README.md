@@ -4,7 +4,7 @@
 
 Design Document  
 
-Brandan Jones  
+Kerry Healey, Lilly Schott, Cassie Meyer, Christopher Brown, Zilong Chen
 
 ## Introduction 
 
