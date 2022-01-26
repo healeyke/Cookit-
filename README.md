@@ -30,7 +30,6 @@ Recipe names are in English.
 
 #### Examples
 1.1  
-
 **Given** a feed of recipe data is available
 
 **When** I search for "Japanese"
@@ -78,7 +77,9 @@ Recipe names are in English.
 
 2.1  
 **Given** a feed of recipe data is available
+
 **Given** camera is available
+
 **When**  
 Select: "Add new recipe"
 Enter: 
@@ -87,12 +88,16 @@ Enter:
   Cooking Method: Boiling
   Nutrition: High Carbs, High Fat, High Protein 
 Add photos: *placeholder for image?*
+
 **Then**  When I search for "Tonkotsu Ramen" it should appear in results with the information I entered 
 
 2.2 
-**Given**   
 **Given** 
-**When**  
+
+**Given** 
+
+**When**
+
 **Then**  
 
 ## Class Diagram
