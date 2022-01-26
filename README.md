@@ -52,10 +52,13 @@ Cooking Method: Baking
 **When** I search for "high protein" 
 
 **Then** I should receive at least one result with the following attribute:
+
 Nutrition: High Protein
 
 and I should receive at least one result with the attributes:
+
 Nutrition: High Protein
+
 Vegan Friendly: Yes
 
 ### Requirement 101 Uploading a Recipe
@@ -75,23 +78,26 @@ Recipe names are in English.
 
 #### Examples  
 
-2.1  
+2.1
+
 **Given** a feed of recipe data is available
 
 **Given** camera is available
 
 **When**  
 Select: "Add new recipe"
+
 Enter: 
-  Name: Tonkotsu Ramen
-  Cuisine: Japanese
-  Cooking Method: Boiling
-  Nutrition: High Carbs, High Fat, High Protein 
+  * Name: Tonkotsu Ramen
+  * Cuisine: Japanese
+  * Cooking Method: Boiling
+  * Nutrition: High Carbs, High Fat, High Protein 
 Add photos: *placeholder for image?*
 
-**Then**  When I search for "Tonkotsu Ramen" it should appear in results with the information I entered 
+**Then**  the new entry for "Tonkotsu Ramen" should be displayed 
 
-2.2 
+2.2
+
 **Given** 
 
 **Given** 
