@@ -15,7 +15,7 @@ RecipeApp can help you:
 -  Curate a list of ingredients to add to your next grocery trip
 
 Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a receipe that best fits your individualized needs.
-Received unique notifications of receipes we think you should try.
+Receive unique notifications of receipes we think you should try.
 
 ## Storyboard
 
