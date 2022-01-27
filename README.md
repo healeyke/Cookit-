@@ -95,9 +95,9 @@ Add photos: *placeholder for image?*\
 
 ## Scrum Roles
 
-- DevOps/Product Owner/Scrum Master: 
-- Frontend Developer:   
-- Integration Developer:   
+- DevOps/Product Owner/Scrum Master: Kerry Healy
+- Frontend Developer: Lilly Schott, Zilong Chen
+- Integration Developer: Cassie Meyer, Christopher Brown
 
 ## Weekly Meeting
 5pm on Tuesdays (virtual via Teams)
