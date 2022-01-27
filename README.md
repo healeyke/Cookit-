@@ -80,14 +80,17 @@ Cuisine: Japanese\
 Cooking Method: Boiling\
 Nutrition: High Carbs, High Fat, High Protein\
 Add photos: *placeholder for image?*\
+Tap Save Icon\
 **Then**  the new entry for "Tonkotsu Ramen" should be displayed 
 
 2.2
 
-**Given**\
-**Given**\
+**Given** a feed of recipe data is available\
 **When**\
-**Then**  
+Select: "Add new recipe"\
+Enter: no data is entered\
+Tap save icon\
+**Then** an error dialog appears showing no data was entered.
 
 ## Class Diagram
 
