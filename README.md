@@ -1,16 +1,16 @@
-# RecipeAppMDP
+# Cookit!
 
 ---
 
-Design Document  
+## Design Document  
 
 Kerry Healey, Lilly Schott, Cassie Meyer, Christopher Brown, Zilong Chen
 
 ## Introduction 
 Have you ever wanted to eat a more balanced diet and don't know what to make?  
 
-RecipeApp can help you:
--  Find receipes based on your desired nutritional value, cuisine, time, or cooking method
+Cookit! can help you:
+-  Find and create receipes based on your desired nutritional value, cuisine, time, or cooking method
 -  Suggest receipes based off your previous meal choices
 -  Curate a list of ingredients to add to your next grocery trip
 
