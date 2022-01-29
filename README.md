@@ -105,7 +105,13 @@ Tap save icon\
 ## Class Diagram
 
 ### Class Diagram Description
-
+**MainActivity:** This is the first screen the user will see. There will be a list of dishes from each style and also a an option to enter a new dish/search for a dish. 
+**ViewModel:** Shows recipe for the dish, how long it will take to cook, spice level, etc.
+**RetrofitClientInstance:** Bootstrap class require for Retrofit.
+**Cuisine:** Noun class that represents each dish.
+**Recipe:** Noun class that represents the recipes for the dishes. 
+**CuisineDAO:** Interface for Retrofit to find and parse Cuisine to JSON.
+**RecipeDAO:** Interface for Room to store Recipe data.
 ## Scrum Roles
 
 - DevOps/Product Owner/Scrum Master: Kerry Healey
