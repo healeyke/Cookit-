@@ -59,11 +59,11 @@ and I should receive at least one result with the attributes:\
 Nutrition: High Protein\
 Vegan Friendly: Yes
 
-### Requirement 101 Uploading a Recipe
+### Requirement 101 Store a Recipe
 
 #### Scenario
 
-As a user interested in cooking, I want to be able to save my personal recipes and share it with others, including photos.
+As a user interested in cooking, I want to be able to save my personal recipes, including photos.
 
 #### Dependencies
 
