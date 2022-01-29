@@ -19,7 +19,7 @@ Receive unique notifications of receipes we think you should try.
 
 ## Storyboard
 
-![Storyboard](G:\课程\移动设备编程\Storyboard.jpg)
+![Storyboard](https://github.com/healeyke/Cookit-/blob/main/Storyboard.png)
 
 
 ## Functional Requirements
