@@ -14,8 +14,8 @@ Cookit! can help you:
 -  Suggest recipes based off your previous meal choices
 -  Curate a list of ingredients to add to your next grocery trip
 
-Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a receipe that best fits your individualized needs.
-Receive unique notifications of receipes we think you should try.
+Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a recipe that best fits your individualized needs.
+Receive unique notifications of recipes we think you should try.
 
 ## Storyboard
 
