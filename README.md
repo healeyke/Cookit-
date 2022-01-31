@@ -19,7 +19,7 @@ Receive unique notifications of receipes we think you should try.
 
 ## Storyboard
 
-![Storyboard](https://github.com/healeyke/Cookit-/blob/main/Storyboard.png)
+![Storyboard](Storyboard.png)
 
 
 ## Functional Requirements
@@ -101,7 +101,7 @@ Tap save icon\
 **Then** an error dialog appears showing no data was entered.
 
 ## Class Diagram
-![Copy of Copy of Cookit!Diagram drawio](https://user-images.githubusercontent.com/98407945/151670015-c8cfcea3-3843-4346-8828-0fe624efc7e4.png)
+![Cookit!Diagram drawio](https://user-images.githubusercontent.com/98407945/151670015-c8cfcea3-3843-4346-8828-0fe624efc7e4.png)
 
 ### Class Diagram Description
 **MainActivity:** This is the first screen the user will see. There will be a list of dishes from each style and also a an option to enter a new dish/search for a dish. 
