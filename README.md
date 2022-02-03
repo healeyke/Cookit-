@@ -10,12 +10,12 @@ Kerry Healey, Lilly Schott, Cassie Meyer, Christopher Brown, Zilong Chen
 Have you ever wanted to eat a more balanced diet and don't know what to make?  
 
 Cookit! can help you:
--  Find and create receipes based on your desired nutritional value, cuisine, time, or cooking method
--  Suggest receipes based off your previous meal choices
+-  Find and create recipes based on your desired nutritional value, cuisine, time, or cooking method
+-  Suggest recipes based off your previous meal choices
 -  Curate a list of ingredients to add to your next grocery trip
 
-Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a receipe that best fits your individualized needs.
-Receive unique notifications of receipes we think you should try.
+Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a recipe that best fits your individualized needs.
+Receive unique notifications of recipes we think you should try.
 
 ## Storyboard
 
