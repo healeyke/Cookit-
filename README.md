@@ -28,7 +28,7 @@ Receive unique notifications of recipes we think you should try.
 
 #### Scenario
 
-As a user interested in cooking, I want to be able to search for recipes based on cuisine, cooking method, or nutrition.
+As a user interested in cooking, I want to be able to search for recipes based on cuisine, cooking method, or nutrition so that I can cook tasty, nutritious meals.
 
 #### Dependencies
 
@@ -65,7 +65,7 @@ Vegan Friendly: Yes
 
 #### Scenario
 
-As a user interested in cooking, I want to be able to save my personal recipes, including photos.
+As a user interested in cooking, I want to be able to save my personal recipes, including photos, so that I can refine my repices over time.
 
 #### Dependencies
 
