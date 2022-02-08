@@ -1,10 +1,11 @@
 package com.cookit
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import junit.framework.Assert.*
-import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import kotlinx.coroutines.test.runTest
 
 /**
  * Example local unit test, which will execute on the development machine (host).
