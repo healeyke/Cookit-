@@ -126,4 +126,4 @@ Tap save icon\
 - Integration Developer: Cassie Meyer, Christopher Brown
 
 ## Weekly Meeting
-5pm on Tuesdays (virtual via Teams)
+After class on Tuesdays via Teams (and Thursdays if needed)
