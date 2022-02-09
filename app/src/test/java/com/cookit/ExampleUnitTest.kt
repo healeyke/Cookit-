@@ -1,6 +1,7 @@
 package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.cookit.dto.Recipe
 import junit.framework.Assert.*
 import org.junit.Rule
 import org.junit.Test
