@@ -2,6 +2,7 @@ package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cookit.dto.Recipe
+import com.cookit.service.RecipeService
 import junit.framework.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -35,11 +36,11 @@ class ExampleUnitTest {
     }
 
     private fun givenRecipeServiceIsInitialized() {
-        recipeService = RecipeService
+        recipeService = RecipeService()
     }
 
     private suspend fun whenRecipeDataIsParsed() {
-        allRecipes = recipeService.getPlants()
+        allRecipes = recipeService.fetchRecipes()
     }
 
     private fun thenRecipeCollectionShouldContainTonkotsuRamen() {
