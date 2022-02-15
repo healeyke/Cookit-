@@ -42,6 +42,13 @@ class ExampleUnitTest {
         thenRecipeCollectionShouldContainLasagna()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainVeggieLasagna()
+    }
+
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeService()
     }
@@ -74,5 +81,16 @@ class ExampleUnitTest {
         assertTrue(containsLasagna)
     }
 
+    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsVeggieLasagna = false
+        allRecipes!!.forEach {
+            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals("Vegetarian")) {
+                containsVeggieLasagna = true
+            }
+        }
+        assertTrue(containsVeggieLasagna)
+    }
 
 }
