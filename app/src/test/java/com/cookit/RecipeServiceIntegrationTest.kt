@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.runTest
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class RecipeServiceIntegrationTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -22,11 +22,6 @@ class ExampleUnitTest {
     lateinit var recipeService : RecipeService
     var allRecipes : Set<Recipe>? = HashSet<Recipe>()
 
-
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
 
     @Test
     fun `Given recipe data is available When I search for Japanese Then I should receive Tonkotsu Ramen` () = runTest {
