@@ -30,20 +30,20 @@ class RecipeServiceIntegrationTest {
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainPBJ()
     }
-
-    @Test
-    fun `Given recipe data is available When I search for Baking then I should receive Lasagna` () = runTest {
-        givenRecipeServiceIsInitialized()
-        whenRecipeDataIsParsed()
-        thenRecipeCollectionShouldContainLasagna()
-    }
-
-    @Test
-    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
-        givenRecipeServiceIsInitialized()
-        whenRecipeDataIsParsed()
-        thenRecipeCollectionShouldContainVeggieLasagna()
-    }
+//
+//    @Test
+//    fun `Given recipe data is available When I search for Baking then I should receive Lasagna` () = runTest {
+//        givenRecipeServiceIsInitialized()
+//        whenRecipeDataIsParsed()
+//        thenRecipeCollectionShouldContainLasagna()
+//    }
+//
+//    @Test
+//    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
+//        givenRecipeServiceIsInitialized()
+//        whenRecipeDataIsParsed()
+//        thenRecipeCollectionShouldContainVeggieLasagna()
+//    }
 
     @Test
     fun `Given recipe data is available When I search for Dinner Then I should receive Hot Pot` () = runTest {
@@ -71,33 +71,33 @@ class RecipeServiceIntegrationTest {
         }
         assertTrue(containsPBJ)
     }
-
-    private fun thenRecipeCollectionShouldContainLasagna() {
-        assertNotNull(allRecipes)
-        assertTrue(allRecipes!!.isNotEmpty())
-        var containsLasagna = false
-        allRecipes!!.forEach {
-            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Lasagna")) {
-                containsLasagna = true
-            }
-        }
-        assertTrue(containsLasagna)
-    }
-
-    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
-        assertNotNull(allRecipes)
-        assertTrue(allRecipes!!.isNotEmpty())
-        var containsVeggieLasagna = false
-        allRecipes!!.forEach {
-            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals(
-                    "Vegetarian"
-                )
-            ) {
-                containsVeggieLasagna = true
-            }
-        }
-        assertTrue(containsVeggieLasagna)
-    }
+//
+//    private fun thenRecipeCollectionShouldContainLasagna() {
+//        assertNotNull(allRecipes)
+//        assertTrue(allRecipes!!.isNotEmpty())
+//        var containsLasagna = false
+//        allRecipes!!.forEach {
+//            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Lasagna")) {
+//                containsLasagna = true
+//            }
+//        }
+//        assertTrue(containsLasagna)
+//    }
+//
+//    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
+//        assertNotNull(allRecipes)
+//        assertTrue(allRecipes!!.isNotEmpty())
+//        var containsVeggieLasagna = false
+//        allRecipes!!.forEach {
+//            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals(
+//                    "Vegetarian"
+//                )
+//            ) {
+//                containsVeggieLasagna = true
+//            }
+//        }
+//        assertTrue(containsVeggieLasagna)
+//    }
         private fun thenRecipeCollectionShouldContainHotPot() {
             assertNotNull(allRecipes)
             assertTrue(allRecipes!!.isNotEmpty())
