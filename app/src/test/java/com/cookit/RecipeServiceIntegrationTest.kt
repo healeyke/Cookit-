@@ -3,6 +3,7 @@ package com.cookit
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cookit.dto.Recipe
 import com.cookit.service.RecipeService
+import com.cookit.service.RecipeServiceStub
 import junit.framework.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -19,15 +20,15 @@ class RecipeServiceIntegrationTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit var recipeService : RecipeService
+    lateinit var recipeService : RecipeServiceStub
     var allRecipes : Set<Recipe>? = HashSet<Recipe>()
 
 
     @Test
-    fun `Given recipe data is available When I search for Japanese Then I should receive Tonkotsu Ramen` () = runTest {
+    fun `Given recipe data is available When I search for Japanese Then I should receive PBJ` () = runTest {
         givenRecipeServiceIsInitialized()
         whenRecipeDataIsParsed()
-        thenRecipeCollectionShouldContainTonkotsuRamen()
+        thenRecipeCollectionShouldContainPBJ()
     }
 
     @Test
@@ -45,23 +46,23 @@ class RecipeServiceIntegrationTest {
     }
 
     private fun givenRecipeServiceIsInitialized() {
-        recipeService = RecipeService()
+        recipeService = RecipeServiceStub()
     }
 
     private suspend fun whenRecipeDataIsParsed() {
         allRecipes = recipeService.fetchRecipes()
     }
 
-    private fun thenRecipeCollectionShouldContainTonkotsuRamen() {
+    private fun thenRecipeCollectionShouldContainPBJ() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsTonkotsuRamen = false
+        var containsPBJ = false
         allRecipes!!.forEach {
-            if (it.cuisine.equals(("Japanese")) && it.name.equals("Tonkotsu Ramen")) {
-                containsTonkotsuRamen = true
+            if (it.cuisine.equals(("American")) && it.name.equals("PBJ")) {
+                containsPBJ = true
             }
         }
-        assertTrue(containsTonkotsuRamen)
+        assertTrue(containsPBJ)
     }
 
     private fun thenRecipeCollectionShouldContainLasagna() {
