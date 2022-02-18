@@ -45,6 +45,13 @@ class RecipeServiceIntegrationTest {
         thenRecipeCollectionShouldContainVeggieLasagna()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Dinner Then I should receive Hot Pot` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainHotPot()
+    }
+
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeServiceStub()
     }
@@ -82,11 +89,27 @@ class RecipeServiceIntegrationTest {
         assertTrue(allRecipes!!.isNotEmpty())
         var containsVeggieLasagna = false
         allRecipes!!.forEach {
-            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals("Vegetarian")) {
+            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals(
+                    "Vegetarian"
+                )
+            ) {
                 containsVeggieLasagna = true
             }
         }
         assertTrue(containsVeggieLasagna)
     }
+        private fun thenRecipeCollectionShouldContainHotPot() {
+            assertNotNull(allRecipes)
+            assertTrue(allRecipes!!.isNotEmpty())
+            var containsHotPot = false
+            allRecipes!!.forEach {
+                if (it.category.equals(("Dinner")) && it.name.equals("Lasagna")) {
+                    containsHotPot = true
+                }
+            }
+            assertTrue(containsHotPot)
+    }
+
+
 
 }

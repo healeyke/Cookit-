@@ -29,6 +29,20 @@ class RecipeServiceStub {
             "Italian",
             mutableMapOf("Chicken" to "6 oz", "Noodles" to "6 oz", "Sauce" to "6 oz")
         ))
+        fakeRecipe.add(Recipe(
+            "Lasagna",
+            "Bake Lasagna for 45 mins",
+            "Dinner",
+            "Italian",
+            mutableMapOf("Beef" to "6 oz", "Pasta" to "6 oz", "Sauce" to "6 oz")
+        ))
+        fakeRecipe.add(Recipe(
+            "Veggie Lasagna",
+            "Bake Lasagna for 45 mins",
+            "Dinner",
+            "Italian",
+            mutableMapOf("Mixed Veggies" to "6 oz", "Noodles" to "6 oz", "Sauce" to "6 oz")
+        ))
         return fakeRecipe
     }
 
