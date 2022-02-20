@@ -25,25 +25,11 @@ class RecipeServiceIntegrationTest {
 
 
     @Test
-    fun `Given recipe data is available When I search for Japanese Then I should receive PBJ` () = runTest {
+    fun `Given recipe data is available When I search for American Then I should receive PBJ` () = runTest {
         givenRecipeServiceIsInitialized()
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainPBJ()
     }
-//
-//    @Test
-//    fun `Given recipe data is available When I search for Baking then I should receive Lasagna` () = runTest {
-//        givenRecipeServiceIsInitialized()
-//        whenRecipeDataIsParsed()
-//        thenRecipeCollectionShouldContainLasagna()
-//    }
-//
-//    @Test
-//    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
-//        givenRecipeServiceIsInitialized()
-//        whenRecipeDataIsParsed()
-//        thenRecipeCollectionShouldContainVeggieLasagna()
-//    }
 
     @Test
     fun `Given recipe data is available When I search for Dinner Then I should receive Hot Pot` () = runTest {
@@ -51,6 +37,21 @@ class RecipeServiceIntegrationTest {
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainHotPot()
     }
+
+    @Test
+    fun `Given recipe data is available When I search for Italian Then I should receive Lasagna` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainLasagna()
+    }
+
+    //
+//    @Test
+//    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
+//        givenRecipeServiceIsInitialized()
+//        whenRecipeDataIsParsed()
+//        thenRecipeCollectionShouldContainVeggieLasagna()
+//    }
 
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeServiceStub()
@@ -71,20 +72,32 @@ class RecipeServiceIntegrationTest {
         }
         assertTrue(containsPBJ)
     }
-//
-//    private fun thenRecipeCollectionShouldContainLasagna() {
-//        assertNotNull(allRecipes)
-//        assertTrue(allRecipes!!.isNotEmpty())
-//        var containsLasagna = false
-//        allRecipes!!.forEach {
-//            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Lasagna")) {
-//                containsLasagna = true
-//            }
-//        }
-//        assertTrue(containsLasagna)
-//    }
-//
-//    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
+
+    private fun thenRecipeCollectionShouldContainHotPot() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsHotPot = false
+        allRecipes!!.forEach {
+            if (it.category.equals(("Dinner")) && it.name.equals("Hot Pot")) {
+                containsHotPot = true
+            }
+        }
+        assertTrue(containsHotPot)
+    }
+
+    private fun thenRecipeCollectionShouldContainLasagna() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsLasagna = false
+        allRecipes!!.forEach {
+            if (it.cuisine.equals(("Italian")) && it.name.equals("Lasagna")) {
+                containsLasagna = true
+            }
+        }
+        assertTrue(containsLasagna)
+    }
+
+    //    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
 //        assertNotNull(allRecipes)
 //        assertTrue(allRecipes!!.isNotEmpty())
 //        var containsVeggieLasagna = false
@@ -98,18 +111,6 @@ class RecipeServiceIntegrationTest {
 //        }
 //        assertTrue(containsVeggieLasagna)
 //    }
-        private fun thenRecipeCollectionShouldContainHotPot() {
-            assertNotNull(allRecipes)
-            assertTrue(allRecipes!!.isNotEmpty())
-            var containsHotPot = false
-            allRecipes!!.forEach {
-                if (it.category.equals(("Dinner")) && it.name.equals("Lasagna")) {
-                    containsHotPot = true
-                }
-            }
-            assertTrue(containsHotPot)
-    }
-
 
 
 }
