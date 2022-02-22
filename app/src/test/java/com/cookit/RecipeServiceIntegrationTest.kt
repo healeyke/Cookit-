@@ -46,7 +46,7 @@ class RecipeServiceIntegrationTest {
     }
 
     @Test
-    fun `Given recipe data is available When I search for Italian Then I should receive Banana Bread` () = runTest {
+    fun `Given recipe data is available When I search for English Then I should receive Banana Bread` () = runTest {
         givenRecipeServiceIsInitialized()
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainBananaBread()
