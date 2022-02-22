@@ -57,6 +57,13 @@ class RecipeServiceStub {
             "Chinese",
             mutableMapOf("Pork" to "1 lb", "soy sauce" to "2 spoons", "oyster sauce" to "1 spoons", "green onion" to "1 oz","ginger" to "1 oz", "anise" to "1","Chinese prickly ash" to "7","sugar" to "12 g")
         ))
+        fakeRecipe.add(Recipe(
+            "Fried Yum",
+            "Wash yams and carrots and slice them. Pour vegetable oil into the pot, add shallots, stir fry for a few seconds, add yam and carrot, and finally add 2g salt, 6g sugar and two tablespoons of vinegar.",
+            "Lunch",
+            "Chinese",
+            mutableMapOf("Yam" to "200 g", "Carrot" to "150 g", "shallot" to "1","salt" to "2g","sugar" to "6g","vinegar" to "2 tablespoons")
+        ))
         return fakeRecipe
     }
 
