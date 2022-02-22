@@ -51,7 +51,7 @@ class RecipeServiceStub {
             mutableMapOf("Bananas" to "1 cup", "Pecans" to "1 tbsp", "flour" to "1 cup")
         ))
         fakeRecipe.add(Recipe(
-            "Hongshao Pork",
+            "HongShao Pork",
             "Wash the pork, marinate it and put it into a pot with cold water. Add seasoning and soy sauce, boil the water over high heat, and then cook over medium low heat for half an hour.",
             "Dinner",
             "Chinese",
