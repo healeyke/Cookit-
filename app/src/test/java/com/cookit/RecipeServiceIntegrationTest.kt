@@ -46,20 +46,19 @@ class RecipeServiceIntegrationTest {
     }
 
     @Test
-    fun `Given recipe data is available When I search for Italian Then I should receive Banana Bread` () = runTest {
+    fun `Given recipe data is available When I search for English Then I should receive Banana Bread` () = runTest {
         givenRecipeServiceIsInitialized()
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainBananaBread()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Italian Then I should receive Chicken Alfredo` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainChickenAlfredo()
+    }
 
-    //
-//    @Test
-//    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
-//        givenRecipeServiceIsInitialized()
-//        whenRecipeDataIsParsed()
-//        thenRecipeCollectionShouldContainVeggieLasagna()
-//    }
 
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeServiceStub()
@@ -117,20 +116,16 @@ class RecipeServiceIntegrationTest {
         assertTrue(containsBananaBread)
     }
 
-    //    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
-//        assertNotNull(allRecipes)
-//        assertTrue(allRecipes!!.isNotEmpty())
-//        var containsVeggieLasagna = false
-//        allRecipes!!.forEach {
-//            if (it.cookingMethods.equals(("Baking")) && it.name.equals("Veggie Lasagna") && it.nutrition.equals(
-//                    "Vegetarian"
-//                )
-//            ) {
-//                containsVeggieLasagna = true
-//            }
-//        }
-//        assertTrue(containsVeggieLasagna)
-//    }
-
+    private fun thenRecipeCollectionShouldContainChickenAlfredo() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsChickenAlfredo = false
+        allRecipes!!.forEach {
+            if (it.cuisine.equals(("Italian")) && it.name.equals("Chicken Alfredo")) {
+                containsChickenAlfredo = true
+            }
+        }
+        assertTrue(containsChickenAlfredo)
+    }
 
 }
