@@ -45,6 +45,14 @@ class RecipeServiceIntegrationTest {
         thenRecipeCollectionShouldContainLasagna()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Italian Then I should receive Banana Bread` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainBananaBread()
+    }
+
+
     //
 //    @Test
 //    fun `Given recipe data is available When I search for Vegetarian Then I should receive Veggie Lasagna` () = runTest {
@@ -95,6 +103,18 @@ class RecipeServiceIntegrationTest {
             }
         }
         assertTrue(containsLasagna)
+    }
+
+    private fun thenRecipeCollectionShouldContainBananaBread() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsBananaBread = false
+        allRecipes!!.forEach {
+            if (it.cuisine.equals(("English")) && it.name.equals("Banana Bread")) {
+                containsBananaBread = true
+            }
+        }
+        assertTrue(containsBananaBread)
     }
 
     //    private fun thenRecipeCollectionShouldContainVeggieLasagna() {
