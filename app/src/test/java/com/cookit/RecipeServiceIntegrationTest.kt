@@ -59,6 +59,13 @@ class RecipeServiceIntegrationTest {
         thenRecipeCollectionShouldContainChickenAlfredo()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Chinese Then I should receive HongShao Pork` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionShouldContainHongShaoPork()
+    }
+
 
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeServiceStub()
@@ -126,6 +133,17 @@ class RecipeServiceIntegrationTest {
             }
         }
         assertTrue(containsChickenAlfredo)
+    }
+    private fun thenRecipeCollectionShouldContainHongShaoPork() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsHongShaoPork = false
+        allRecipes!!.forEach {
+            if (it.cuisine.equals(("Chinese")) && it.name.equals("HongShao Pork")) {
+                containsHongShaoPork = true
+            }
+        }
+        assertTrue(containsHongShaoPork)
     }
 
 }
