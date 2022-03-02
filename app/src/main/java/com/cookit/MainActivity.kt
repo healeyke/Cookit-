@@ -10,6 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.cookit.ui.theme.CookitTheme
 
+// For sprint 1, we mostly focused on testing with classes and services
+// Please see other files for code review such as dao, dto, service packages & integration test class, or check our commits for what we have done so far
+// UI coming soon!
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
