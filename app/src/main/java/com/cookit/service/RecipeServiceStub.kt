@@ -4,6 +4,8 @@ import com.cookit.dto.Recipe
 
 class RecipeServiceStub {
 
+    // service stub of simulated data used in testing
+
     suspend fun fetchRecipes(): Set<Recipe>? {
 
         var fakeRecipe = mutableSetOf<Recipe>()
