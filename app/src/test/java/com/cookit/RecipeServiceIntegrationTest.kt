@@ -2,7 +2,6 @@ package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cookit.dto.Recipe
-import com.cookit.service.RecipeService
 import com.cookit.service.RecipeServiceStub
 import junit.framework.Assert.*
 import org.junit.Rule
@@ -89,97 +88,73 @@ class RecipeServiceIntegrationTest {
         allRecipes = recipeService.fetchRecipes()
     }
 
+    fun searchRecipeByCategory(category: String, name: String): Boolean {
+        allRecipes!!.forEach{
+            if(it.category.equals(category) && it.name.equals(name)) {
+                return true
+            }
+        }
+        return false
+    }
+    fun searchRecipeByCuisine(cusine: String, name: String) : Boolean {
+        allRecipes!!.forEach{
+            if(it.cuisine.equals(cusine) && it.name.equals(name)) {
+                return true
+            }
+        }
+        return false
+    }
     private fun thenRecipeCollectionShouldContainPBJ() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsPBJ = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("American")) && it.name.equals("PBJ")) {
-                containsPBJ = true
-            }
-        }
+        var containsPBJ = searchRecipeByCuisine("American", "PBJ")
         assertTrue(containsPBJ)
     }
 
     private fun thenRecipeCollectionShouldContainHotPot() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsHotPot = false
-        allRecipes!!.forEach {
-            if (it.category.equals(("Dinner")) && it.name.equals("Hot Pot")) {
-                containsHotPot = true
-            }
-        }
+        var containsHotPot = searchRecipeByCategory("Dinner","Hot Pot")
         assertTrue(containsHotPot)
     }
 
     private fun thenRecipeCollectionShouldContainVeggieLasagna() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsVeggieLasagna = false
-        allRecipes!!.forEach {
-            if (it.category.equals(("Dinner")) && it.name.equals("Veggie Lasagna")) {
-                containsVeggieLasagna = true
-            }
-        }
+        var containsVeggieLasagna = searchRecipeByCategory("Dinner","Veggie Lasagna")
         assertTrue(containsVeggieLasagna)
     }
 
     private fun thenRecipeCollectionShouldContainLasagna() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsLasagna = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("Italian")) && it.name.equals("Lasagna")) {
-                containsLasagna = true
-            }
-        }
+        var containsLasagna = searchRecipeByCuisine("Italian","Lasagna")
         assertTrue(containsLasagna)
     }
 
     private fun thenRecipeCollectionShouldContainBananaBread() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsBananaBread = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("English")) && it.name.equals("Banana Bread")) {
-                containsBananaBread = true
-            }
-        }
+        var containsBananaBread = searchRecipeByCuisine("English","Banana Bread")
         assertTrue(containsBananaBread)
     }
 
     private fun thenRecipeCollectionShouldContainChickenAlfredo() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsChickenAlfredo = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("Italian")) && it.name.equals("Chicken Alfredo")) {
-                containsChickenAlfredo = true
-            }
-        }
+        var containsChickenAlfredo = searchRecipeByCuisine("Italian", "Chicken Alfredo")
         assertTrue(containsChickenAlfredo)
     }
     private fun thenRecipeCollectionShouldContainHongShaoPork() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsHongShaoPork = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("Chinese")) && it.name.equals("HongShao Pork")) {
-                containsHongShaoPork = true
-            }
-        }
+        var containsHongShaoPork = searchRecipeByCuisine("Chinese", "HongShao Pork")
         assertTrue(containsHongShaoPork)
     }
     private fun thenRecipeCollectionShouldContainFriedYum() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
-        var containsFriedYum = false
-        allRecipes!!.forEach {
-            if (it.cuisine.equals(("Chinese")) && it.name.equals("Fried Yum")) {
-                containsFriedYum = true
-            }
-        }
+        var containsFriedYum = searchRecipeByCuisine("Chinese","Fried Yum")
         assertTrue(containsFriedYum)
     }
 
