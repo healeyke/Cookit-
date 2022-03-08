@@ -79,7 +79,6 @@ class RecipeServiceIntegrationTest {
         thenRecipeCollectionShouldContainFriedYum()
     }
 
-
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeServiceStub()
     }
@@ -157,6 +156,5 @@ class RecipeServiceIntegrationTest {
         var containsFriedYum = searchRecipeByCuisine("Chinese","Fried Yum")
         assertTrue(containsFriedYum)
     }
-
 
 }
