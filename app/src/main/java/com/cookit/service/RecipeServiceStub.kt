@@ -15,6 +15,7 @@ class RecipeServiceStub {
          "Boil water",
              "Dinner",
              "Chinese",
+             "none",
              mutableMapOf("Water" to "10 cups", "Spices" to "5 grams", "Beef" to "6 oz")
          ))
         fakeRecipe.add(Recipe(
@@ -22,6 +23,7 @@ class RecipeServiceStub {
             "Get bread, put jelly and peanut butter on bread",
             "Vegan",
             "American",
+            "Peanuts",
             mutableMapOf("Bread" to "2 slices", "Jelly" to "1 tsp", "Peanut Butter" to "2 tsp")
         ))
         fakeRecipe.add(Recipe(
@@ -29,6 +31,7 @@ class RecipeServiceStub {
             "Cook chicken, boil noodles, add alfredo sauce",
             "Dinner",
             "Italian",
+            "none",
             mutableMapOf("Chicken" to "6 oz", "Noodles" to "6 oz", "Sauce" to "6 oz")
         ))
         fakeRecipe.add(Recipe(
@@ -36,6 +39,7 @@ class RecipeServiceStub {
             "Bake Lasagna for 45 mins",
             "Dinner",
             "Italian",
+            "none",
             mutableMapOf("Beef" to "6 oz", "Pasta" to "6 oz", "Sauce" to "6 oz")
         ))
         fakeRecipe.add(Recipe(
@@ -43,6 +47,7 @@ class RecipeServiceStub {
             "Bake Lasagna for 45 mins",
             "Dinner",
             "Italian",
+            "none",
             mutableMapOf("Mixed Veggies" to "6 oz", "Noodles" to "6 oz", "Sauce" to "6 oz")
         ))
         fakeRecipe.add(Recipe(
@@ -50,6 +55,7 @@ class RecipeServiceStub {
             "Put bananas in batter and bake for 30 minutes",
             "Lunch",
             "English",
+            "none",
             mutableMapOf("Bananas" to "1 cup", "Pecans" to "1 tbsp", "flour" to "1 cup")
         ))
         fakeRecipe.add(Recipe(
@@ -57,6 +63,7 @@ class RecipeServiceStub {
             "Wash the pork, marinate it and put it into a pot with cold water. Add seasoning and soy sauce, boil the water over high heat, and then cook over medium low heat for half an hour.",
             "Dinner",
             "Chinese",
+            "none",
             mutableMapOf("Pork" to "1 lb", "soy sauce" to "2 spoons", "oyster sauce" to "1 spoons", "green onion" to "1 oz","ginger" to "1 oz", "anise" to "1","Chinese prickly ash" to "7","sugar" to "12 g")
         ))
         fakeRecipe.add(Recipe(
@@ -64,6 +71,7 @@ class RecipeServiceStub {
             "Wash yams and carrots and slice them. Pour vegetable oil into the pot, add shallots, stir fry for a few seconds, add yam and carrot, and finally add 2g salt, 6g sugar and two tablespoons of vinegar.",
             "Lunch",
             "Chinese",
+            "none",
             mutableMapOf("Yam" to "200 g", "Carrot" to "150 g", "shallot" to "1","salt" to "2g","sugar" to "6g","vinegar" to "2 tablespoons")
         ))
         return fakeRecipe

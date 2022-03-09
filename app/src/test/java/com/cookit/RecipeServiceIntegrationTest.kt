@@ -32,10 +32,24 @@ class RecipeServiceIntegrationTest {
     }
 
     @Test
+    fun `I receive PBJ an allergen field should be listed as peanuts` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionHasPossibleAllergenFieldReturningPeanuts()
+    }
+
+    @Test
     fun `Given recipe data is available When I search for Dinner Then I should receive Hot Pot` () = runTest {
         givenRecipeServiceIsInitialized()
         whenRecipeDataIsParsed()
         thenRecipeCollectionShouldContainHotPot()
+    }
+
+    @Test
+    fun `Given recipe data When I search for Dinner and I receive Hot Pot allergen field is none` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenRecipeCollectionContainHotPotReturnsNoAllergens()
     }
 
     @Test
@@ -101,6 +115,18 @@ class RecipeServiceIntegrationTest {
         assertTrue(containsPBJ)
     }
 
+    private fun thenRecipeCollectionHasPossibleAllergenFieldReturningPeanuts() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsAllergen = false
+        allRecipes!!.forEach {
+            if (it.cuisine.equals(("American")) && it.name.equals("PBJ") && it.possibleAllergens.equals("Peanuts")) {
+                containsAllergen = true
+            }
+        }
+        assertTrue(containsAllergen)
+    }
+
     private fun thenRecipeCollectionShouldContainHotPot() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.isNotEmpty())
@@ -111,6 +137,18 @@ class RecipeServiceIntegrationTest {
             }
         }
         assertTrue(containsHotPot)
+    }
+
+    private fun thenRecipeCollectionContainHotPotReturnsNoAllergens() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.isNotEmpty())
+        var containsNoAllergens = false
+        allRecipes!!.forEach {
+            if (it.possibleAllergens.equals(("none")) && it.name.equals("Hot Pot")) {
+                containsNoAllergens = true
+            }
+        }
+        assertTrue(containsNoAllergens)
     }
 
     private fun thenRecipeCollectionShouldContainVeggieLasagna() {
