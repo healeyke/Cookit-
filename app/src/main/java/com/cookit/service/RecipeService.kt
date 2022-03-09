@@ -10,7 +10,7 @@ import retrofit2.awaitResponse
 
 
 class RecipeService {
-    suspend fun fetchRecipes(): Set<Recipe>? {
+    internal suspend fun fetchRecipes(): Set<Recipe>? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IRecipeDAO::class.java)
             val recipes = async { service?.getAllRecipes() }
