@@ -6,7 +6,7 @@ class RecipeServiceStub {
 
     // service stub of simulated data used in testing
 
-    suspend fun fetchRecipes(): Set<Recipe>? {
+    internal suspend fun fetchRecipes(): Set<Recipe>? {
 
         var fakeRecipe = mutableSetOf<Recipe>()
 
