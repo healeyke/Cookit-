@@ -9,16 +9,13 @@ import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
 /**
- *  A service class related to Recipes.
+ * A service class related to Recipes
+ * Gets Recipe from the database.
+ *
+ * This function implements the [IRecipeDAO] interface to fetch recipe data from the specified url.
+ * @throws Exception Throws an exception when the server response is not successful.
+ * @return Response body from the url specified at [IRecipeDAO.getAllRecipes] GET wrapper
  */
-class RecipeService {
-    /**
-     * Gets Recipe from the database.
-     *
-     * This function implements the [IRecipeDAO] interface to fetch recipe data from the specified url.
-     * @throws Exception Throws an exception when the server response is not successful.
-     * @return Response body from the url specified at [IRecipeDAO.getAllRecipes] GET wrapper
-     */
 interface IRecipeService {
     suspend fun fetchRecipes() : Set<Recipe>?
 }
