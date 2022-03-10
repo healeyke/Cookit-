@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface IRecipeDAO {
     @GET("")
-    fun getAllRecipes() : Call<Set<Recipe>>
+    suspend fun getAllRecipes() : Call<Set<Recipe>>
 }
