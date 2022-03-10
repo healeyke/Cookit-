@@ -8,9 +8,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
+interface IRecipeService {
+    suspend fun fetchRecipes() : Set<Recipe>?
+}
 
-class RecipeService {
-    suspend fun fetchRecipes(): Set<Recipe>? {
+class RecipeService : IRecipeService {
+    override suspend fun fetchRecipes(): Set<Recipe>? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IRecipeDAO::class.java)
             val recipes = async { service?.getAllRecipes() }
