@@ -19,7 +19,12 @@ class RecipeService {
      * @throws Exception Throws an exception when the server response is not successful.
      * @return Response body from the url specified at [IRecipeDAO.getAllRecipes] GET wrapper
      */
-    suspend fun fetchRecipes(): Set<Recipe>? {
+interface IRecipeService {
+    suspend fun fetchRecipes() : Set<Recipe>?
+}
+
+class RecipeService : IRecipeService {
+    override suspend fun fetchRecipes(): Set<Recipe>? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IRecipeDAO::class.java)
             val response = service!!.getAllRecipes().awaitResponse()
