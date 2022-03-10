@@ -5,6 +5,7 @@ import com.cookit.dto.Recipe
 import com.cookit.service.RecipeService
 import com.cookit.service.RecipeServiceStub
 import junit.framework.Assert.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -15,13 +16,14 @@ import kotlinx.coroutines.test.runTest
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+@ExperimentalCoroutinesApi
 class RecipeServiceIntegrationTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    lateinit var recipeService : RecipeServiceStub
-    var allRecipes : Set<Recipe>? = HashSet<Recipe>()
+    private lateinit var recipeService : RecipeServiceStub
+    private var allRecipes : Set<Recipe>? = HashSet<Recipe>()
 
 
     @Test
