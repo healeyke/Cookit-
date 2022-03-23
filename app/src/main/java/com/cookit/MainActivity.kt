@@ -1,6 +1,7 @@
 package com.cookit
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -36,18 +37,21 @@ fun RecipeFields(name: String) {
             onValueChange = {recipeName = it},
             label = { Text(stringResource(R.string.recipeName))}
         )
-
         OutlinedTextField(
             value = category,
             onValueChange = {category = it},
             label = { Text(text = stringResource(R.string.category))}
         )
-
         OutlinedTextField(
             value = cuisine,
             onValueChange = {cuisine = it},
             label = { Text(text = stringResource(R.string.cuisine))}
         )
+        Button (
+            onClick = { /*TODO*/ }
+        ){
+            Text(text = "Search")
+        }
     }
 }
 
