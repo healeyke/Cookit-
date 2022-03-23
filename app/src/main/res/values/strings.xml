@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cookit!</string>
+    <string name="recipeName">Recipe Name</string>
 </resources>
