@@ -26,11 +26,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun RecipeFields(name: String) {
     var recipeName by remember { mutableStateOf("")}
+    var category by remember { mutableStateOf("")}
 
     OutlinedTextField(
         value = recipeName,
         onValueChange = {recipeName = it},
         label = { Text(stringResource(R.string.recipeName))}
+    )
+    
+    OutlinedTextField(
+        value = category,
+        onValueChange = {category = it},
+        label = { Text(text = stringResource(R.string.category))}
     )
 }
 
