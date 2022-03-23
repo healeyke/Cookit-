@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
 fun RecipeFields(name: String) {
     var recipeName by remember { mutableStateOf("")}
     var category by remember { mutableStateOf("")}
+    var cuisine by remember { mutableStateOf("")}
 
     OutlinedTextField(
         value = recipeName,
@@ -38,6 +39,12 @@ fun RecipeFields(name: String) {
         value = category,
         onValueChange = {category = it},
         label = { Text(text = stringResource(R.string.category))}
+    )
+
+    OutlinedTextField(
+        value = cuisine,
+        onValueChange = {cuisine = it},
+        label = { Text(text = stringResource(R.string.cuisine))}
     )
 }
 
