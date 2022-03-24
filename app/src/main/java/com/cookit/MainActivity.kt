@@ -1,5 +1,6 @@
 package com.cookit
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +21,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             CookitTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background){
+                Surface(
+                    color = MaterialTheme.colors.background,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     RecipeFields("Android")
                 }
             }
@@ -35,6 +39,9 @@ fun RecipeFields(name: String) {
     var cuisine by remember { mutableStateOf("")}
     
     Column {
+
+        // dropdown for add vs. edit recipes
+
         OutlinedTextField(
             value = recipeName,
             onValueChange = {recipeName = it},
@@ -71,10 +78,20 @@ fun RecipeFields(name: String) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 @Composable
 fun DefaultPreview() {
     CookitTheme {
-        RecipeFields("Android")
+        Surface(
+            color = MaterialTheme.colors.background,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            RecipeFields("Android")
+        }
     }
 }
