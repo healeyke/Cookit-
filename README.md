@@ -4,7 +4,7 @@
 
 ## Design Document  
 
-Kerry Healey, Lilly Schott, Cassie Meyer, Christopher Brown, Zilong Chen
+Kerry Healey, Lilly Schott, Christopher Brown, Zilong Chen
 
 ## Introduction 
 Have you ever wanted to eat a more balanced diet and don't know what to make?  
@@ -123,7 +123,7 @@ Tap save icon\
 
 - DevOps/Product Owner/Scrum Master: Kerry Healey
 - Frontend Developer: Lilly Schott, Zilong Chen
-- Integration Developer: Cassie Meyer, Christopher Brown
+- Integration Developer: Christopher Brown
 
 ## Weekly Meeting
 After class on Tuesdays via Teams (and Thursdays if needed)
