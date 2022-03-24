@@ -17,6 +17,8 @@ Cookit! can help you:
 Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a recipe that best fits your individualized needs.
 Receive unique notifications of recipes we think you should try.
 
+We are using ![TheMealDB API](https://www.themealdb.com/api.php) to pull recipe data.
+
 ## Storyboard
 
 ![Storyboard](Storyboard.png)
@@ -117,7 +119,6 @@ Tap save icon\
 **CuisineDAO:** Interface for Retrofit to find and parse Cuisine to JSON.
 
 **RecipeDAO:** Interface for Room to store Recipe data.
-
 
 ## Scrum Roles
 
