@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClientInstance {
     private var retrofit: Retrofit? = null
-    private const val BASE_URL = ""
+    private const val BASE_URL = "https://www.themealdb.com/api/json/v1/"
     // data used for testing located in RecipeServiceStub class
 
     val retrofitInstance : Retrofit?
