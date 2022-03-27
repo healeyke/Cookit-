@@ -9,7 +9,7 @@ data class Recipe(
     @SerializedName("strArea")var cuisine : String = "",
     @SerializedName("strInstructions")var instructions : String = "",
     @SerializedName("strRecipeThumb")var imageURL : String = "",
-    var ingredients : MutableMap<String, String> = LinkedHashMap<String, String>()
+    var ingredients : MutableMap<String, String> = LinkedHashMap()
     ) {
     override fun toString(): String {
         return name
