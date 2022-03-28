@@ -43,23 +43,13 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
-        //var recipeName by remember { mutableStateOf("") }
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
         Column {
 
             // dropdown for add vs. edit recipes
-
             TextFieldWithDropdownUsage(recipe)
-            /*OutlinedTextField(
-            value = recipeName,
-            onValueChange = {recipeName = it},
-            label = { Text(stringResource(R.string.recipeName))},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp)
-        )*/
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -93,15 +83,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun TextFieldWithDropdownUsage(dataIn: List<Recipe>, label: String = "", take: Int = 3) {
-
         val dropDownOptions = remember { mutableStateOf(listOf<Recipe>()) }
         val textFieldValue = remember { mutableStateOf(TextFieldValue()) }
         val dropDownExpanded = remember { mutableStateOf(false) }
-
         fun onDropdownDismissRequest() {
             dropDownExpanded.value = false
         }
-
         fun onValueChanged(value: TextFieldValue) {
             inRecipeName = value.text
             dropDownExpanded.value = true
@@ -110,7 +97,6 @@ class MainActivity : ComponentActivity() {
                 it.toString().startsWith(value.text) && it.toString() != value.text
             }.take(take)
         }
-
         TextFieldWithDropdown(
             modifier = Modifier.fillMaxWidth(),
             value = textFieldValue.value,
