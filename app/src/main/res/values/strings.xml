@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Cookit!</string>
-    <string name="recipeName">Recipe Name</string>
     <string name="category">Category (ex: Dinner)</string>
     <string name="cuisine">Cuisine (ex: Japanese)</string>
 </resources>
