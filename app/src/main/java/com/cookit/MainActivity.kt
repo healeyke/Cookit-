@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Composable
     fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
@@ -49,7 +48,7 @@ class MainActivity : ComponentActivity() {
         Column {
 
             // dropdown for add vs. edit recipes
-            TextFieldWithDropdownUsage(recipe)
+            TextFieldWithDropdownUsage(recipe, label = "Recipe Name")
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -70,15 +69,14 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .padding(10.dp),
                 onClick = {
-
+                    //TODO
                 }
             )
             {
                 Text(text = "Search")
             }
-
         }
-        }
+    }
 
 
     @Composable
@@ -98,7 +96,9 @@ class MainActivity : ComponentActivity() {
             }.take(take)
         }
         TextFieldWithDropdown(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp),
             value = textFieldValue.value,
             setValue = ::onValueChanged,
             onDismissRequest = ::onDropdownDismissRequest,
