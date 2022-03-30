@@ -17,8 +17,8 @@ class MainViewModel : ViewModel() {
 
     fun fetchRecipes() {
         viewModelScope.launch {
-            var innerRecipeList =recipeService.fetchRecipes()
-            var innerRecipes : ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList<Recipe>()
+            var innerRecipeList = recipeService.fetchRecipes()
+            var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList<Recipe>()
             recipes.postValue(innerRecipes)
         }
     }

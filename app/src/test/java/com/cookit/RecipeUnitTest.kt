@@ -114,7 +114,7 @@ class RecipeUnitTest {
     }
 
     private fun thenResultsShouldContainHongShaoPork() {
-        var allRecipes: RecipeList = RecipeList()
+        var allRecipes = RecipeList()
 
         val latch = CountDownLatch(1)
         val observer = object : Observer<ArrayList<Recipe>> {
@@ -131,9 +131,9 @@ class RecipeUnitTest {
         mvm.recipes.observeForever(observer)
         latch.await(10, TimeUnit.SECONDS)
         assertNotNull(allRecipes)
-        assertTrue(allRecipes.recipes!!.isNotEmpty())
+        assertTrue(allRecipes.recipes.isNotEmpty())
         var containsHongShaoPork = false
-        allRecipes.recipes!!.forEach {
+        allRecipes.recipes.forEach {
             if (it.name.equals("HongShao Pork") && it.cuisine.equals("Chinese")) {
                 containsHongShaoPork = true
             }
