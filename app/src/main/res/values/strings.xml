@@ -2,4 +2,6 @@
     <string name="app_name">Cookit!</string>
     <string name="category">Category (ex: Dinner)</string>
     <string name="cuisine">Cuisine (ex: Japanese)</string>
+    <string name="searchRecipe">Search for Recipe</string>
+    <string name="addRecipe">Add a Recipe</string>
 </resources>
