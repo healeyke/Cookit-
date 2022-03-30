@@ -18,7 +18,7 @@ internal class RecipeServiceStub {
      */
     fun fetchRecipes(): Set<Recipe> {
 
-        return mutableSetOf<Recipe>(
+        return mutableSetOf(
             Recipe(
                 "001",
                 "Hot Pot",

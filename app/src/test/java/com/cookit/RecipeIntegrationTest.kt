@@ -1,10 +1,8 @@
 package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.cookit.dto.Recipe
 import com.cookit.dto.RecipeList
 import com.cookit.service.RecipeService
-import com.cookit.service.RecipeServiceStub
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.test.runTest

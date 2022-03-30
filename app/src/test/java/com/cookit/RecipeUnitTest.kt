@@ -105,8 +105,7 @@ class RecipeUnitTest {
         )
 
         coEvery { mockRecipeService.fetchRecipes() } returns recipeList
-        mvm = MainViewModel()
-        mvm.recipeService = mockRecipeService
+        mvm = MainViewModel(mockRecipeService)
     }
 
     private fun whenRecipeServiceFetchRecipesInvoked() {
@@ -121,7 +120,7 @@ class RecipeUnitTest {
             override fun onChanged(receivedRecipes: ArrayList<Recipe>?) {
                 allRecipes.recipes = receivedRecipes.let {
                     receivedRecipes
-                } ?: ArrayList<Recipe>()
+                } ?: ArrayList()
                 latch.countDown()
                 mvm.recipes.removeObserver(this)
             }
@@ -134,7 +133,7 @@ class RecipeUnitTest {
         assertTrue(allRecipes.recipes.isNotEmpty())
         var containsHongShaoPork = false
         allRecipes.recipes.forEach {
-            if (it.name.equals("HongShao Pork") && it.cuisine.equals("Chinese")) {
+            if (it.name == "HongShao Pork" && it.cuisine == "Chinese") {
                 containsHongShaoPork = true
             }
         }

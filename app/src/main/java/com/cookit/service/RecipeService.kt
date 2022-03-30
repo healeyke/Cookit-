@@ -2,10 +2,8 @@ package com.cookit.service
 
 import com.cookit.RetrofitClientInstance
 import com.cookit.dao.IRecipeDAO
-import com.cookit.dto.Recipe
 import com.cookit.dto.RecipeList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
