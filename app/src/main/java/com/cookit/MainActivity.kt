@@ -75,6 +75,16 @@ class MainActivity : ComponentActivity() {
             {
                 Text(text = "Search")
             }
+            Button(
+                modifier = Modifier
+                    .padding(10.dp),
+                onClick = {
+                    //TODO
+                }
+            )
+            {
+                Text(text = "Save")
+            }
         }
     }
 
@@ -85,7 +95,7 @@ class MainActivity : ComponentActivity() {
         val spinnerOptions = listOf(stringResource(R.string.searchRecipe), stringResource(R.string.addRecipe))
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Row(Modifier
-                .padding(10.dp)
+                .padding(20.dp)
                 .clickable {
                     expanded = !expanded
                 }
