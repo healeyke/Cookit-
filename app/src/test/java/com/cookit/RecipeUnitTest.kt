@@ -105,7 +105,7 @@ class RecipeUnitTest {
         )
 
         coEvery { mockRecipeService.fetchRecipes() } returns recipeList
-
+        mvm = MainViewModel()
         mvm.recipeService = mockRecipeService
     }
 
@@ -123,12 +123,12 @@ class RecipeUnitTest {
                     receivedRecipes
                 } ?: ArrayList<Recipe>()
                 latch.countDown()
-                mvm.plants.removeObserver(this)
+                mvm.recipes.removeObserver(this)
             }
 
         }
 
-        mvm.plants.observeForever(observer)
+        mvm.recipes.observeForever(observer)
         latch.await(10, TimeUnit.SECONDS)
         assertNotNull(allRecipes)
         assertTrue(allRecipes.recipes!!.isNotEmpty())
