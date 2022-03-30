@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
         var cuisine by remember { mutableStateOf("") }
 
         Column {
-            TextFieldWithDropdownUsage(recipe, label = "Recipe Name")
+            TextFieldWithDropdownUsage(recipe, label = stringResource(R.string.recipeName))
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
