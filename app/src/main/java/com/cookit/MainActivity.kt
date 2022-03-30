@@ -149,54 +149,54 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-@Composable
-fun TextFieldWithDropdown(
-    modifier: Modifier = Modifier,
-    value: TextFieldValue,
-    setValue: (TextFieldValue) -> Unit,
-    onDismissRequest: () -> Unit,
-    dropDownExpanded: Boolean,
-    list: List<Recipe>,
-    label: String = ""
-) {
-    Box(modifier) {
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged { focusState ->
-                    if (!focusState.isFocused)
-                        onDismissRequest()
-                },
-            value = value,
-            onValueChange = setValue,
-            label = { Text(label) },
-            colors = TextFieldDefaults.outlinedTextFieldColors()
-        )
-        DropdownMenu(
-            expanded = dropDownExpanded,
-            properties = PopupProperties(
-                focusable = false,
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true
-            ),
-            onDismissRequest = onDismissRequest
-        ) {
-            list.forEach { text ->
-                DropdownMenuItem(onClick = {
-                    setValue(
-                        TextFieldValue(
-                            text.toString(),
-                            TextRange(text.toString().length)
+    @Composable
+    fun TextFieldWithDropdown(
+        modifier: Modifier = Modifier,
+        value: TextFieldValue,
+        setValue: (TextFieldValue) -> Unit,
+        onDismissRequest: () -> Unit,
+        dropDownExpanded: Boolean,
+        list: List<Recipe>,
+        label: String = ""
+    ) {
+        Box(modifier) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged { focusState ->
+                        if (!focusState.isFocused)
+                            onDismissRequest()
+                    },
+                value = value,
+                onValueChange = setValue,
+                label = { Text(label) },
+                colors = TextFieldDefaults.outlinedTextFieldColors()
+            )
+            DropdownMenu(
+                expanded = dropDownExpanded,
+                properties = PopupProperties(
+                    focusable = false,
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true
+                ),
+                onDismissRequest = onDismissRequest
+            ) {
+                list.forEach { text ->
+                    DropdownMenuItem(onClick = {
+                        setValue(
+                            TextFieldValue(
+                                text.toString(),
+                                TextRange(text.toString().length)
+                            )
                         )
-                    )
-                    selectedRecipe = text
-                }) {
-                    Text(text = text.toString())
+                        selectedRecipe = text
+                    }) {
+                        Text(text = text.toString())
+                    }
                 }
             }
         }
     }
-}
 
     @Preview(name = "Light Mode", showBackground = true)
     @Preview(
@@ -204,6 +204,7 @@ fun TextFieldWithDropdown(
         showBackground = true,
         name = "Dark Mode"
     )
+
     @Composable
     fun DefaultPreview() {
         CookitTheme {
