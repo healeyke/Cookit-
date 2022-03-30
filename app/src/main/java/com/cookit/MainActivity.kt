@@ -4,14 +4,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -47,7 +43,6 @@ class MainActivity : ComponentActivity() {
         var cuisine by remember { mutableStateOf("") }
 
         Column {
-            SpinnerMenu()
             TextFieldWithDropdownUsage(recipe, label = "Recipe Name")
             OutlinedTextField(
                 value = category,
@@ -84,38 +79,6 @@ class MainActivity : ComponentActivity() {
             )
             {
                 Text(text = "Save")
-            }
-        }
-    }
-
-    @Composable
-    fun SpinnerMenu () {
-        var spinnerText by remember { mutableStateOf("Recipe Collection")}
-        var expanded by remember { mutableStateOf(false)}
-        val spinnerOptions = listOf(stringResource(R.string.searchRecipe), stringResource(R.string.addRecipe))
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Row(Modifier
-                .padding(20.dp)
-                .clickable {
-                    expanded = !expanded
-                }
-                .padding(8.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = spinnerText)
-                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
-                    DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false }) {
-                        spinnerOptions.forEach { selectedOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    expanded = false
-                                    spinnerText = selectedOption
-                            }) {
-                                Text(text = selectedOption)
-                            }
-                        }
-                    }
             }
         }
     }
