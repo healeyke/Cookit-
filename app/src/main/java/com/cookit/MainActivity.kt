@@ -60,25 +60,27 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
             )
-            Button(
-                modifier = Modifier
-                    .padding(10.dp),
-                onClick = {
-                    //TODO
+            Row {
+                Button(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    onClick = {
+                        //TODO
+                    }
+                )
+                {
+                    Text(text = "Search")
                 }
-            )
-            {
-                Text(text = "Search")
-            }
-            Button(
-                modifier = Modifier
-                    .padding(10.dp),
-                onClick = {
-                    //TODO
+                Button(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    onClick = {
+                        //TODO
+                    }
+                )
+                {
+                    Text(text = "Save")
                 }
-            )
-            {
-                Text(text = "Save")
             }
         }
     }
