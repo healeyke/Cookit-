@@ -12,7 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class APITest {
+class RecipeIntegrationTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
