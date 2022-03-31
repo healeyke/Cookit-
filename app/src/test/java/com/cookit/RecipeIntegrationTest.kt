@@ -1,10 +1,8 @@
 package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.cookit.dto.Recipe
 import com.cookit.dto.RecipeList
 import com.cookit.service.RecipeService
-import com.cookit.service.RecipeServiceStub
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.test.runTest
@@ -28,6 +26,14 @@ class RecipeIntegrationTest {
         thenRecipeCollectionShouldBeNonEmpty()
     }
 
+    @Test
+    fun `Given recipe data is available When I search for Apple Then results should contain Apple Frangipan Tart` () = runTest {
+        givenRecipeServiceIsInitialized()
+        whenRecipeDataIsParsed()
+        thenResultsShouldContainAppleFrangipanTart()
+    }
+
+
     private fun givenRecipeServiceIsInitialized() {
         recipeService = RecipeService()
     }
@@ -39,6 +45,18 @@ class RecipeIntegrationTest {
     private fun thenRecipeCollectionShouldBeNonEmpty() {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.recipes.isNotEmpty())
+    }
+
+    private fun thenResultsShouldContainAppleFrangipanTart() {
+        assertNotNull(allRecipes)
+        assertTrue(allRecipes!!.recipes.isNotEmpty())
+        var containsAppleFrangipanTart = false
+        allRecipes!!.recipes.forEach{
+            if (it.name.lowercase().contains("apple") && it.cuisine == "British") {
+                containsAppleFrangipanTart = true
+            }
+        }
+        assertTrue(containsAppleFrangipanTart)
     }
 
 }
