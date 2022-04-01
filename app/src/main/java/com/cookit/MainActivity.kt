@@ -18,13 +18,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.compose.runtime.livedata.observeAsState
 
 class MainActivity : ComponentActivity() {
+    private val viewModel : MainViewModel by viewModel<MainViewModel>()
+
     private var inRecipeName: String = ""
     private var selectedRecipe: Recipe? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            viewModel.fetchRecipes()
+            val recipes by viewModel.recipes.observeAsState(initial = emptyList())
             CookitTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
