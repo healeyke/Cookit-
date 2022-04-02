@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClientInstance {
     private var retrofit: Retrofit? = null
-    private const val BASE_URL = "https://www.themealdb.com/api/json/v1/"
+    private const val BASE_URL = "https://www.themealdb.com/api/json/v2/"
     private val recipeDeserializer = RecipeSerializationService()
     private val customGSON : Gson = GsonBuilder()
         .registerTypeAdapter(Recipe::class.java, recipeDeserializer)
