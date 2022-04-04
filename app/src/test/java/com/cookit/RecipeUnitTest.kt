@@ -2,6 +2,7 @@ package com.cookit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.cookit.dto.Meal
 import com.cookit.dto.Recipe
 import com.cookit.dto.RecipeList
 import com.cookit.service.RecipeService
@@ -14,10 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.rules.TestRule
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -44,6 +42,22 @@ class RecipeUnitTest {
         Dispatchers.resetMain()
         mainThreadSurrogate.close()
     }
+
+    @Test
+    fun `Given a meal DTO when name is Burger and description is A tasty snack `(){
+        val meal = Meal("","Burger", "", "A tasty snack", "")
+        Assert.assertTrue(meal.name.equals("Burger"))
+        Assert.assertTrue(meal.description.equals("A tasty snack"))
+    }
+
+    @Test
+    fun `Given a recipe DTO when name is Espresso and category is coffee`(){
+        val recipe = Recipe("","Espresso", "coffee")
+        Assert.assertTrue(recipe.name.equals("Espresso"))
+        Assert.assertTrue(recipe.category.equals("coffee"))
+    }
+
+
 
     @Test
     fun `given a ViewModel with LiveData when populated with recipes then should return HongShao Pork`() {
