@@ -5,7 +5,7 @@ data class Meal(
     var name: String,
     var mealID: String,
     var description: String,
-    var image: String
+    var image: String,
 ) {
     override fun toString(): String {
         return name
