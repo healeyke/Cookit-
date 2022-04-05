@@ -13,12 +13,12 @@ import kotlinx.coroutines.launch
  * Used to supply [MutableLiveData] of type [ArrayList] of Recipe to views
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
-    val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    var recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
 
-    fun fetchRecipes() {
+    internal fun fetchRecipes() {
         viewModelScope.launch {
-            var innerRecipeList = recipeService.fetchRecipes()
-            var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
+            val innerRecipeList = recipeService.fetchRecipes()
+            val innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
             recipes.postValue(innerRecipes)
         }
     }
