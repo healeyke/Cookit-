@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.cookit.dto.Recipe
 import com.cookit.service.IRecipeService
 import com.cookit.service.RecipeService
+import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.launch
 
 /**
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    var user: User? = null
 
     fun fetchRecipes() {
         viewModelScope.launch {
@@ -22,4 +24,5 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
             recipes.postValue(innerRecipes)
         }
     }
+
 }
