@@ -20,6 +20,7 @@ import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.runtime.livedata.observeAsState
+import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
     private val viewModel : MainViewModel by viewModel<MainViewModel>()
@@ -45,6 +46,11 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
+        var recipeID by remember () {mutableStateOf("")}
+        var name by remember () {mutableStateOf("")}
+        var mealID by remember () {mutableStateOf("")}
+        var description by remember (){ mutableStateOf("")}
+        var image by remember () {mutableStateOf("")}
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
@@ -81,7 +87,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        //TODO
+                        var meal = Meal(recipeID = recipeID,name = name, mealID = mealID, description = description,image= image)
+                        viewModel.saveRecipe(meal)
                     }
                 )
                 {

@@ -3,6 +3,7 @@ package com.cookit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cookit.dto.Meal
 import com.cookit.dto.Recipe
 import com.cookit.service.IRecipeService
 import com.cookit.service.RecipeService
@@ -21,5 +22,9 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
             var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
             recipes.postValue(innerRecipes)
         }
+    }
+
+    fun saveRecipe(meal: Meal) {
+
     }
 }
