@@ -37,19 +37,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields("Android")
+                    RecipeFields("Android", recipes)
                 }
             }
         }
     }
 
     @Composable
-    fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
+    fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
         Column {
-            TextFieldWithDropdownUsage(recipe, label = stringResource(R.string.recipeName))
+            TextFieldWithDropdownUsage(recipes, label = stringResource(R.string.recipeName))
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
