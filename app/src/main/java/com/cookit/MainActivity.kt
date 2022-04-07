@@ -20,6 +20,7 @@ import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.runtime.livedata.observeAsState
+import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
     private val viewModel : MainViewModel by viewModel<MainViewModel>()
@@ -37,19 +38,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields("Android")
+                    RecipeFields("Android", recipes)
                 }
             }
         }
     }
 
     @Composable
-    fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
+    fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
         Column {
-            TextFieldWithDropdownUsage(recipe, label = stringResource(R.string.recipeName))
+            TextFieldWithDropdownUsage(recipes, label = stringResource(R.string.recipeName))
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        //TODO
+                        viewModel.save(Meal())
                     }
                 )
                 {
@@ -103,9 +104,7 @@ class MainActivity : ComponentActivity() {
             inRecipeName = value.text
             dropDownExpanded.value = true
             textFieldValue.value = value
-            dropDownOptions.value = dataIn.filter {
-                it.toString().startsWith(value.text) && it.toString() != value.text
-            }.take(take)
+            dropDownOptions.value = viewModel.getPredictionList(value.text, take)
         }
         TextFieldWithDropdown(
             modifier = Modifier
