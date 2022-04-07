@@ -51,12 +51,13 @@ class RecipeIntegrationTest {
         assertNotNull(allRecipes)
         assertTrue(allRecipes!!.recipes.isNotEmpty())
         var containsAppleFrangipanTart = false
-        allRecipes!!.recipes.forEach{
-            if (it.name.lowercase().contains("apple frangipan") && it.cuisine == "British") {
-                containsAppleFrangipanTart = true
+        allRecipes?.let {
+            it.recipes.forEach {
+                if (it.name.lowercase().contains("apple") && it.cuisine == "British") {
+                    containsAppleFrangipanTart = true
+                }
             }
         }
         assertTrue(containsAppleFrangipanTart)
     }
-
 }
