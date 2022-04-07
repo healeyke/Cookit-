@@ -28,8 +28,8 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
 
     internal fun fetchRecipes() {
         viewModelScope.launch {
-            var innerRecipeList = recipeService.fetchRecipes()
-            var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
+            val innerRecipeList = recipeService.fetchRecipes()
+            val innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
             recipes.postValue(innerRecipes)
         }
     }
