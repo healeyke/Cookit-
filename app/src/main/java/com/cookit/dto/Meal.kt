@@ -4,7 +4,7 @@ data class Meal(
     var recipeID: String = "",
     var name: String = "",
     var mealID: String = "",
-    var description: String = ""
+    var description: String = "",
 ) {
     override fun toString(): String {
         return name

@@ -23,10 +23,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
-    private val viewModel : MainViewModel by viewModel<MainViewModel>()
 
+    private val viewModel : MainViewModel by viewModel<MainViewModel>()
     private var inRecipeName: String = ""
     private var selectedRecipe: Recipe? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -76,7 +77,7 @@ class MainActivity : ComponentActivity() {
                     }
                 )
                 {
-                    Text(text = "Search")
+                    Text(text = stringResource(R.string.Search))
                 }
                 Button(
                     modifier = Modifier
@@ -86,7 +87,7 @@ class MainActivity : ComponentActivity() {
                     }
                 )
                 {
-                    Text(text = "Save")
+                    Text(text = stringResource(R.string.Save))
                 }
             }
         }
@@ -119,54 +120,54 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-@Composable
-fun TextFieldWithDropdown(
-    modifier: Modifier = Modifier,
-    value: TextFieldValue,
-    setValue: (TextFieldValue) -> Unit,
-    onDismissRequest: () -> Unit,
-    dropDownExpanded: Boolean,
-    list: List<Recipe>,
-    label: String = ""
-) {
-    Box(modifier) {
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged { focusState ->
-                    if (!focusState.isFocused)
-                        onDismissRequest()
-                },
-            value = value,
-            onValueChange = setValue,
-            label = { Text(label) },
-            colors = TextFieldDefaults.outlinedTextFieldColors()
-        )
-        DropdownMenu(
-            expanded = dropDownExpanded,
-            properties = PopupProperties(
-                focusable = false,
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true
-            ),
-            onDismissRequest = onDismissRequest
-        ) {
-            list.forEach { text ->
-                DropdownMenuItem(onClick = {
-                    setValue(
-                        TextFieldValue(
-                            text.toString(),
-                            TextRange(text.toString().length)
+    @Composable
+    fun TextFieldWithDropdown(
+        modifier: Modifier = Modifier,
+        value: TextFieldValue,
+        setValue: (TextFieldValue) -> Unit,
+        onDismissRequest: () -> Unit,
+        dropDownExpanded: Boolean,
+        list: List<Recipe>,
+        label: String = ""
+    ) {
+        Box(modifier) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged { focusState ->
+                        if (!focusState.isFocused)
+                            onDismissRequest()
+                    },
+                value = value,
+                onValueChange = setValue,
+                label = { Text(label) },
+                colors = TextFieldDefaults.outlinedTextFieldColors()
+            )
+            DropdownMenu(
+                expanded = dropDownExpanded,
+                properties = PopupProperties(
+                    focusable = false,
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true
+                ),
+                onDismissRequest = onDismissRequest
+            ) {
+                list.forEach { text ->
+                    DropdownMenuItem(onClick = {
+                        setValue(
+                            TextFieldValue(
+                                text.toString(),
+                                TextRange(text.toString().length)
+                            )
                         )
-                    )
-                    selectedRecipe = text
-                }) {
-                    Text(text = text.toString())
+                        selectedRecipe = text
+                    }) {
+                        Text(text = text.toString())
+                    }
                 }
             }
         }
     }
-}
 
     @Preview(name = "Light Mode", showBackground = true)
     @Preview(

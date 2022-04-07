@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
  * Used to supply [MutableLiveData] of type [ArrayList] of [Recipe] to views
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
+
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -25,7 +26,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
     }
 
-    fun fetchRecipes() {
+    internal fun fetchRecipes() {
         viewModelScope.launch {
             var innerRecipeList = recipeService.fetchRecipes()
             var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
