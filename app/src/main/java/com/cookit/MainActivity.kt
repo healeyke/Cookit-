@@ -46,8 +46,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-
-    internal fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
+    internal fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
