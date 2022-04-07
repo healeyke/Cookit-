@@ -17,5 +17,4 @@ data class Recipe(
     }
 }
 
-data class RecipeList(@SerializedName("meals") var recipes : ArrayList<Recipe> = arrayListOf())
 
