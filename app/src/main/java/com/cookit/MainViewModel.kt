@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
 
-    private var firestore : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
@@ -33,17 +33,52 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         }
     }
 
-    fun save(meal : Meal) {
+    fun save(meal: Meal) {
         val document = if (meal.mealID == null || meal.mealID.isEmpty()) {
-            // create a new specimen
+            // create a new meal
             firestore.collection("meals").document()
         } else {
-            // update an existing specimen.
+            // update an existing meal.
             firestore.collection("meals").document(meal.mealID)
         }
         meal.mealID = document.id
         val handle = document.set(meal)
         handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
-        handle.addOnFailureListener { Log.e("Firebase", "Save failed $it ")}
+        handle.addOnFailureListener { Log.e("Firebase", "Save failed $it ") }
+    }
+
+    /**
+     * Function that provides a list of predictions to the autocomplete text field
+     * @param query is text to search
+     * @param take  is the number of results to provide
+     * @return [List] of [Recipe] containing any predictions
+    */
+    fun getPredictionList(query: String, take: Int): List<Recipe> {
+        var recipeList = recipes.value
+        if (query.isNullOrEmpty()) return listOf()
+        recipeList?.let { list ->
+            when {
+                list.any { it.name.lowercase().startsWith(query) && it.name != query }
+                -> {
+                    return list.filter {
+                        it.name.lowercase().startsWith(query) && it.name != query
+                    }.take(take)
+                }
+                list.any { it.category.lowercase().startsWith(query) }
+                -> {
+                    return list.filter {
+                        it.category.lowercase().startsWith(query)
+                    }.take(take)
+                }
+                list.any { it.cuisine.lowercase().startsWith(query) }
+                -> {
+                    return list.filter {
+                        it.cuisine.lowercase().startsWith(query)
+                    }.take(take)
+                }
+                else -> return listOf()
+            }
+        }
+        return listOf()
     }
 }

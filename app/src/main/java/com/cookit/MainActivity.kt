@@ -104,9 +104,7 @@ class MainActivity : ComponentActivity() {
             inRecipeName = value.text
             dropDownExpanded.value = true
             textFieldValue.value = value
-            dropDownOptions.value = dataIn.filter {
-                it.toString().startsWith(value.text) && it.toString() != value.text
-            }.take(take)
+            dropDownOptions.value = viewModel.getPredictionList(value.text, take)
         }
         TextFieldWithDropdown(
             modifier = Modifier
