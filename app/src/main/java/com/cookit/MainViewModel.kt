@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Class for the primary viewmodel
- * Used to supply [MutableLiveData] of type [ArrayList] of Recipe to views
+ * Used to supply [MutableLiveData] of type [ArrayList] of [Recipe] to views
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
