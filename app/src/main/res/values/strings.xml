@@ -3,4 +3,6 @@
     <string name="category">Category (ex: Dinner)</string>
     <string name="cuisine">Cuisine (ex: Japanese)</string>
     <string name="recipeName">Recipe Name</string>
+    <string name="Search">Search</string>
+    <string name="Save">Save</string>
 </resources>
