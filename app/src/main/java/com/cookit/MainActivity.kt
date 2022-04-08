@@ -20,7 +20,6 @@ import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.runtime.livedata.observeAsState
-import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
 
