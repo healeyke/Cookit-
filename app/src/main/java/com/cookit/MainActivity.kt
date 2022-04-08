@@ -4,14 +4,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,33 +18,43 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.compose.runtime.livedata.observeAsState
+import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel : MainViewModel by viewModel<MainViewModel>()
     private var inRecipeName: String = ""
     private var selectedRecipe: Recipe? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            viewModel.fetchRecipes()
+            val recipes by viewModel.recipes.observeAsState(initial = emptyList())
             CookitTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields("Android")
+                    RecipeFields("Android", recipes)
                 }
             }
         }
     }
 
     @Composable
-    fun RecipeFields(name: String, recipe: List<Recipe> = ArrayList<Recipe>()) {
+    internal fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
+        var ingredients by remember { mutableStateOf("") }
+        var instructions by remember { mutableStateOf("") }
+
 
         Column {
-            SpinnerMenu()
-            TextFieldWithDropdownUsage(recipe, label = "Recipe Name")
+            TextFieldWithDropdownUsage(recipes, label = stringResource(R.string.recipeName))
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -65,57 +71,52 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
             )
-            Button(
+            OutlinedTextField(
+                value = ingredients,
+                onValueChange = { ingredients = it },
+                label = { Text(text = stringResource(R.string.ingredients)) },
                 modifier = Modifier
-                    .padding(10.dp),
-                onClick = {
-                    //TODO
-                }
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+                    .height(100.dp)
             )
-            {
-                Text(text = "Search")
-            }
-            Button(
+            OutlinedTextField(
+                value = instructions,
+                onValueChange = { instructions = it },
+                label = { Text(text = stringResource(R.string.istructions)) },
                 modifier = Modifier
-                    .padding(10.dp),
-                onClick = {
-                    //TODO
-                }
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+                    .height(100.dp)
             )
-            {
-                Text(text = "Save")
-            }
-        }
-    }
-
-    @Composable
-    fun SpinnerMenu () {
-        var spinnerText by remember { mutableStateOf("Recipe Collection")}
-        var expanded by remember { mutableStateOf(false)}
-        val spinnerOptions = listOf(stringResource(R.string.searchRecipe), stringResource(R.string.addRecipe))
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Row(Modifier
-                .padding(20.dp)
-                .clickable {
-                    expanded = !expanded
-                }
-                .padding(8.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = spinnerText)
-                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
-                    DropdownMenu(expanded = expanded, onDismissRequest = {expanded = false }) {
-                        spinnerOptions.forEach { selectedOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    expanded = false
-                                    spinnerText = selectedOption
-                            }) {
-                                Text(text = selectedOption)
-                            }
-                        }
+            Row {
+                Button(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    onClick = {
+                        //TODO
                     }
+                )
+                {
+                    Text(text = stringResource(R.string.Search))
+                }
+                Button(
+                    modifier = Modifier
+                        .padding(10.dp),
+                    onClick = {
+                        var meal = Meal().apply {
+                            recipeName = inRecipeName
+                            recipeCategory = category
+                            recipeCuisine = cuisine
+                            recipeIngredients = ingredients
+                            recipeInstructions = instructions
+                        }
+                        viewModel.save(meal)
+                    }
+                )
+                {
+                    Text(text = stringResource(R.string.Save))
+                }
             }
         }
     }
@@ -132,9 +133,7 @@ class MainActivity : ComponentActivity() {
             inRecipeName = value.text
             dropDownExpanded.value = true
             textFieldValue.value = value
-            dropDownOptions.value = dataIn.filter {
-                it.toString().startsWith(value.text) && it.toString() != value.text
-            }.take(take)
+            dropDownOptions.value = viewModel.getPredictionList(value.text, take)
         }
         TextFieldWithDropdown(
             modifier = Modifier

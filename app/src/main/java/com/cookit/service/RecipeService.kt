@@ -2,9 +2,8 @@ package com.cookit.service
 
 import com.cookit.RetrofitClientInstance
 import com.cookit.dao.IRecipeDAO
-import com.cookit.dto.Recipe
+import com.cookit.dto.RecipeList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 
@@ -17,11 +16,11 @@ import retrofit2.awaitResponse
  * @return Response body from the url specified at [IRecipeDAO.getAllRecipes] GET wrapper
  */
 interface IRecipeService {
-    suspend fun fetchRecipes() : Set<Recipe>?
+    suspend fun fetchRecipes() : RecipeList?
 }
 
 class RecipeService : IRecipeService {
-    override suspend fun fetchRecipes(): Set<Recipe>? {
+    override suspend fun fetchRecipes(): RecipeList? {
         return withContext(Dispatchers.IO) {
             val service = RetrofitClientInstance.retrofitInstance?.create(IRecipeDAO::class.java)
             val response = service!!.getAllRecipes().awaitResponse()

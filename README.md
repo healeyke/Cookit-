@@ -4,7 +4,7 @@
 
 ## Design Document  
 
-Kerry Healey, Lilly Schott, Cassie Meyer, Christopher Brown, Zilong Chen
+Kerry Healey, Lilly Schott, Christopher Brown, Zilong Chen
 
 ## Introduction 
 Have you ever wanted to eat a more balanced diet and don't know what to make?  
@@ -16,6 +16,8 @@ Cookit! can help you:
 
 Use your mobile device to find your next balanced meal.  Search and filter within the interface to find a recipe that best fits your individualized needs.
 Receive unique notifications of recipes we think you should try.
+
+We are using [TheMealDB API](https://www.themealdb.com/api.php) to pull recipe data.
 
 ## Storyboard
 
@@ -118,12 +120,11 @@ Tap save icon\
 
 **RecipeDAO:** Interface for Room to store Recipe data.
 
-
 ## Scrum Roles
 
 - DevOps/Product Owner/Scrum Master: Kerry Healey
 - Frontend Developer: Lilly Schott, Zilong Chen
-- Integration Developer: Cassie Meyer, Christopher Brown
+- Integration Developer: Christopher Brown
 
 ## Weekly Meeting
 After class on Tuesdays via Teams (and Thursdays if needed)
