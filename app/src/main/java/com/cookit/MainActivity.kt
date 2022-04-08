@@ -104,14 +104,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        var meal = Meal().apply {
-                            recipeName = inRecipeName
-                            recipeCategory = category
-                            recipeCuisine = cuisine
-                            recipeIngredients = ingredients
-                            recipeInstructions = instructions
+                        var recipe = Recipe().apply {
+                            this.name = inRecipeName
+                            this.category = category
+                            this.cuisine = cuisine
+                            this.instructions = instructions
                         }
-                        viewModel.save(meal)
+                        viewModel.save(recipe)
                     }
                 )
                 {
