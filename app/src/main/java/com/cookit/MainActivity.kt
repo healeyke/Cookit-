@@ -49,6 +49,9 @@ class MainActivity : ComponentActivity() {
     internal fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
+        var ingredients by remember { mutableStateOf("") }
+        var instructions by remember { mutableStateOf("") }
+
 
         Column {
             TextFieldWithDropdownUsage(recipes, label = stringResource(R.string.recipeName))
@@ -68,6 +71,24 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
             )
+            OutlinedTextField(
+                value = ingredients,
+                onValueChange = { ingredients = it },
+                label = { Text(text = stringResource(R.string.ingredients)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+                    .height(100.dp)
+            )
+            OutlinedTextField(
+                value = instructions,
+                onValueChange = { instructions = it },
+                label = { Text(text = stringResource(R.string.istructions)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
+                    .height(100.dp)
+            )
             Row {
                 Button(
                     modifier = Modifier
@@ -83,7 +104,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        viewModel.save(Meal())
+                        var meal = Meal().apply {
+                            recipeName = inRecipeName
+                            recipeCategory = category
+                            recipeCuisine = cuisine
+                            recipeIngredients = ingredients
+                            recipeInstructions = instructions
+                        }
+                        viewModel.save(meal)
                     }
                 )
                 {
