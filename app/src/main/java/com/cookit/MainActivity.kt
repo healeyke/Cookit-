@@ -20,7 +20,6 @@ import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.runtime.livedata.observeAsState
-import com.cookit.dto.Meal
 
 class MainActivity : ComponentActivity() {
 
@@ -104,14 +103,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        var meal = Meal().apply {
-                            recipeName = inRecipeName
-                            recipeCategory = category
-                            recipeCuisine = cuisine
-                            recipeIngredients = ingredients
-                            recipeInstructions = instructions
+                        var recipe = Recipe().apply {
+                            this.name = inRecipeName
+                            this.category = category
+                            this.cuisine = cuisine
+                            this.instructions = instructions
                         }
-                        viewModel.save(meal)
+                        viewModel.save(recipe)
                     }
                 )
                 {
