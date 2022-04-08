@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cookit.dto.Meal
 import com.cookit.dto.Recipe
 import com.cookit.service.IRecipeService
 import com.cookit.service.RecipeService
@@ -13,8 +12,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import kotlinx.coroutines.launch
 
 /**
- * Class for the primary viewmodel
- * Used to supply [MutableLiveData] of type [ArrayList] of [Recipe] to views
+ * Class for the primary view model
+ * Used to supply [MutableLiveData] to views
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
@@ -34,18 +33,18 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         }
     }
 
-    fun save(meal: Meal) {
-        val document = if (meal.mealID == null || meal.mealID.isEmpty()) {
+    fun save(recipe: Recipe) {
+        val document = if (recipe.fireStoreID.isBlank()) {
             // create a new meal
-            firestore.collection("meals").document()
+            firestore.collection("recipes").document()
         } else {
             // update an existing meal.
-            firestore.collection("meals").document(meal.mealID)
+            firestore.collection("recipes").document(recipe.fireStoreID)
         }
-        meal.mealID = document.id
-        val handle = document.set(meal)
+        recipe.fireStoreID = document.id
+        val handle = document.set(recipe)
         handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
-        handle.addOnFailureListener { Log.e("Firebase", "Save failed $it ") }
+        handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
     }
 
     /**
