@@ -1,6 +1,9 @@
 package com.cookit
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,11 +21,39 @@ import kotlinx.coroutines.launch
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    var selectedRecipe by mutableStateOf(Recipe())
+    val NEW_RECIPE = "New Recipe"
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        listenToRecipes()
+    }
+
+    private fun listenToRecipes() {
+        firestore.collection("recipes").addSnapshotListener {
+                snapshot, error ->
+            // see of we received an error
+            if (error != null) {
+                Log.w("listen failed.", error)
+                return@addSnapshotListener
+            }
+            // if we reached this point, there was not an error, and we have data.
+            snapshot?.let {
+                val allRecipes = ArrayList<Recipe>()
+                allRecipes.add(Recipe(NEW_RECIPE))
+                val documents = snapshot.documents
+                documents.forEach {
+                    val recipe = it.toObject(Recipe::class.java)
+                    recipe?.let {
+                        allRecipes.add(recipe)
+                    }
+                }
+                // we have a populated collection of recipes
+                recipes.value = allRecipes
+            }
+        }
     }
 
     internal fun fetchRecipes() {

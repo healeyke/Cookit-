@@ -4,9 +4,12 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.Modifier
@@ -20,6 +23,8 @@ import com.cookit.dto.Recipe
 import com.cookit.ui.theme.CookitTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
 
@@ -38,14 +43,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields("Android", recipes)
+                    RecipeFields("Android", recipes, viewModel.selectedRecipe)
                 }
             }
         }
     }
 
     @Composable
-    internal fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
+    internal fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>(), selectedRecipe : Recipe = Recipe()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
         var ingredients by remember { mutableStateOf("") }
@@ -53,6 +58,7 @@ class MainActivity : ComponentActivity() {
 
 
         Column {
+            RecipeSpinner(recipes = recipes)
             TextFieldWithDropdownUsage(recipes, label = stringResource(R.string.recipeName))
             OutlinedTextField(
                 value = category,
@@ -189,6 +195,48 @@ class MainActivity : ComponentActivity() {
                         selectedRecipe = text
                     }) {
                         Text(text = text.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun RecipeSpinner (recipes : List<Recipe>) {
+        var expanded by remember {mutableStateOf(false)}
+        var recipeText by remember {mutableStateOf("Recipe Collection")}
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Row(Modifier
+                .padding(24.dp)
+                .clickable {
+                    expanded = !expanded
+                }
+                .padding(8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = recipeText, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
+                Icon (imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    recipes.forEach {
+                            recipe -> DropdownMenuItem( onClick = {
+                                expanded = false
+                            if (recipe.name == viewModel.NEW_RECIPE) {
+                                // create a new specimen object
+                                recipeText = ""
+                                recipe.name = ""
+                            } else {
+                                // we have selected an existing specimen.
+                                recipeText = recipe.toString()
+                                selectedRecipe = Recipe(name = recipe.name)
+                                inRecipeName = recipe.name
+                            }
+
+                        viewModel.selectedRecipe = recipe
+
+                    }) {
+                        Text (text = recipe.toString())
+                    }
                     }
                 }
             }
