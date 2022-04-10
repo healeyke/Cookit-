@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    val userRecipes : MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
     var selectedRecipe by mutableStateOf(Recipe())
     val NEW_RECIPE = "New Recipe"
 
@@ -28,10 +30,10 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-        listenToRecipes()
+        //listenToRecipes()
     }
 
-    private fun listenToRecipes() {
+    internal fun listenToRecipes(){
         firestore.collection("recipes").addSnapshotListener {
                 snapshot, error ->
             // see of we received an error
@@ -51,7 +53,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
                     }
                 }
                 // we have a populated collection of recipes
-                recipes.value = allRecipes
+                userRecipes.postValue(allRecipes)
             }
         }
     }
