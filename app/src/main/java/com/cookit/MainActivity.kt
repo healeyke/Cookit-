@@ -229,12 +229,11 @@ class MainActivity : ComponentActivity() {
                             expanded = false
                             if (recipe.name == viewModel.NEW_RECIPE) {
                                 // create a new specimen object
-                                recipeText = ""
-                                recipe.name = ""
+                                recipeText = viewModel.NEW_RECIPE
                             } else {
                                 // we have selected an existing specimen.
                                 recipeText = recipe.toString()
-                                selectedRecipe = Recipe(name = recipe.name)
+                               // selectedRecipe = Recipe()
                                 inRecipeName = recipe.name
                             }
 

@@ -44,7 +44,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
             // if we reached this point, there was not an error, and we have data.
             snapshot?.let {
                 val allRecipes = ArrayList<Recipe>()
-                allRecipes.add(Recipe(NEW_RECIPE))
+                allRecipes.add(Recipe(name = NEW_RECIPE))
                 val documents = snapshot.documents
                 documents.forEach {
                     val recipe = it.toObject(Recipe::class.java)
