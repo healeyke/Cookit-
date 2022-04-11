@@ -1,10 +1,13 @@
 package com.cookit
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cookit.dto.Meal
 import com.cookit.dto.Recipe
 import com.cookit.service.IRecipeService
 import com.cookit.service.RecipeService
@@ -13,38 +16,68 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import kotlinx.coroutines.launch
 
 /**
- * Class for the primary viewmodel
- * Used to supply [MutableLiveData] of type [ArrayList] of [Recipe] to views
+ * Class for the primary view model
+ * Used to supply [MutableLiveData] to views
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
+
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    val userRecipes : MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    var selectedRecipe by mutableStateOf(Recipe())
+    val NEW_RECIPE = "New Recipe"
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        //listenToRecipes()
     }
 
-    fun fetchRecipes() {
+    internal fun listenToRecipes(){
+        firestore.collection("recipes").addSnapshotListener {
+                snapshot, error ->
+            // see of we received an error
+            if (error != null) {
+                Log.w("listen failed.", error)
+                return@addSnapshotListener
+            }
+            // if we reached this point, there was not an error, and we have data.
+            snapshot?.let {
+                val allRecipes = ArrayList<Recipe>()
+                allRecipes.add(Recipe(name = NEW_RECIPE))
+                val documents = snapshot.documents
+                documents.forEach {
+                    val recipe = it.toObject(Recipe::class.java)
+                    recipe?.let {
+                        allRecipes.add(recipe)
+                    }
+                }
+                // we have a populated collection of recipes
+                userRecipes.postValue(allRecipes)
+            }
+        }
+    }
+
+    internal fun fetchRecipes() {
         viewModelScope.launch {
-            var innerRecipeList = recipeService.fetchRecipes()
-            var innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
+            val innerRecipeList = recipeService.fetchRecipes()
+            val innerRecipes: ArrayList<Recipe> = innerRecipeList?.recipes ?: ArrayList()
             recipes.postValue(innerRecipes)
         }
     }
 
-    fun save(meal: Meal) {
-        val document = if (meal.mealID == null || meal.mealID.isEmpty()) {
+    fun save(recipe: Recipe) {
+        val document = if (recipe.fireStoreID.isBlank()) {
             // create a new meal
-            firestore.collection("meals").document()
+            firestore.collection("recipes").document()
         } else {
             // update an existing meal.
-            firestore.collection("meals").document(meal.mealID)
+            firestore.collection("recipes").document(recipe.fireStoreID)
         }
-        meal.mealID = document.id
-        val handle = document.set(meal)
+        recipe.fireStoreID = document.id
+        val handle = document.set(recipe)
         handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
-        handle.addOnFailureListener { Log.e("Firebase", "Save failed $it ") }
+        handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
     }
 
     /**
