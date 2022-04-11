@@ -35,25 +35,28 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     }
 
     internal fun listenToRecipes() {
-        firestore.collection("recipes").addSnapshotListener { snapshot, error ->
-            // see of we received an error
-            if (error != null) {
-                Log.w("listen failed.", error)
-                return@addSnapshotListener
-            }
-            // if we reached this point, there was not an error, and we have data.
-            snapshot?.let {
-                val allRecipes = ArrayList<Recipe>()
-                allRecipes.add(Recipe(name = NEW_RECIPE))
-                val documents = snapshot.documents
-                documents.forEach {
-                    val recipe = it.toObject(Recipe::class.java)
-                    recipe?.let {
-                        allRecipes.add(recipe)
-                    }
+        user?.let {
+         user ->
+            firestore.collection("users").document(user.uid).collection("recipes").addSnapshotListener { snapshot, error ->
+                // see of we received an error
+                if (error != null) {
+                    Log.w("listen failed.", error)
+                    return@addSnapshotListener
                 }
-                // we have a populated collection of recipes
-                userRecipes.postValue(allRecipes)
+                // if we reached this point, there was not an error, and we have data.
+                snapshot?.let {
+                    val allRecipes = ArrayList<Recipe>()
+                    allRecipes.add(Recipe(name = NEW_RECIPE))
+                    val documents = snapshot.documents
+                    documents.forEach {
+                        val recipe = it.toObject(Recipe::class.java)
+                        recipe?.let {
+                            allRecipes.add(recipe)
+                        }
+                    }
+                    // we have a populated collection of recipes
+                    userRecipes.postValue(allRecipes)
+                }
             }
         }
     }
@@ -67,17 +70,20 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     }
 
     fun save(recipe: Recipe) {
-        val document = if (recipe.fireStoreID.isBlank()) {
-            // create a new meal
-            firestore.collection("recipes").document()
-        } else {
-            // update an existing meal.
-            firestore.collection("recipes").document(recipe.fireStoreID)
+        user?.let {
+            user ->
+            val document = if (recipe.fireStoreID.isBlank()) {
+                // create a new meal
+                firestore.collection("users").document(user.uid).collection("recipes").document()
+            } else {
+                // update an existing meal.
+                firestore.collection("users").document(user.uid).collection("recipes").document(recipe.fireStoreID)
+            }
+            recipe.fireStoreID = document.id
+            val handle = document.set(recipe)
+            handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
+            handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
         }
-        recipe.fireStoreID = document.id
-        val handle = document.set(recipe)
-        handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
-        handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
     }
 
     fun saveUser() {
