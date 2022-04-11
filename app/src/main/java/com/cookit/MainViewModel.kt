@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cookit.dto.Recipe
+import com.cookit.dto.User
 import com.cookit.service.IRecipeService
 import com.cookit.service.RecipeService
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,8 +21,9 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
+    var user: User? = null
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
-    val userRecipes : MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
+    val userRecipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
     var selectedRecipe by mutableStateOf(Recipe())
     val NEW_RECIPE = "New Recipe"
 
@@ -33,9 +34,8 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         //listenToRecipes()
     }
 
-    internal fun listenToRecipes(){
-        firestore.collection("recipes").addSnapshotListener {
-                snapshot, error ->
+    internal fun listenToRecipes() {
+        firestore.collection("recipes").addSnapshotListener { snapshot, error ->
             // see of we received an error
             if (error != null) {
                 Log.w("listen failed.", error)
@@ -80,12 +80,21 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
     }
 
+    fun saveUser() {
+        user?.let { user ->
+            val handle = firestore.collection("users").document(user.uid).set(user)
+            handle.addOnSuccessListener { Log.d("Firebase", "User Saved") }
+            handle.addOnFailureListener { Log.e("Firebase", "User save failed $it") }
+
+        }
+    }
+
     /**
      * Function that provides a list of predictions to the autocomplete text field
      * @param query is text to search
      * @param take  is the number of results to provide
      * @return [List] of [Recipe] containing any predictions
-    */
+     */
     fun getPredictionList(query: String, take: Int): List<Recipe> {
         var recipeList = recipes.value
         if (query.isNullOrEmpty()) return listOf()
