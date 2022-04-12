@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.cookit.dto.Recipe
 import com.cookit.dto.User
 import com.cookit.service.IRecipeService
-import com.cookit.service.IngredientMapService
+import com.cookit.service.TextFieldIngredientMapService
 import com.cookit.service.RecipeService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -27,7 +27,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     val userRecipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
     var selectedRecipe by mutableStateOf(Recipe())
     val NEW_RECIPE = "New Recipe"
-    val ingredientMapper = IngredientMapService()
+    val ingredientMapper = TextFieldIngredientMapService()
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
