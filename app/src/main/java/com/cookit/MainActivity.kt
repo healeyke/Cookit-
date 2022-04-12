@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import com.cookit.dto.Recipe
+import com.cookit.dto.User
 import com.cookit.ui.theme.CookitTheme
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -36,12 +37,17 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModel()
     private var inRecipeName: String = ""
     private var selectedRecipe: Recipe? = null
-    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             viewModel.fetchRecipes()
+            firebaseUser?.let {
+                val user = User(it.uid, "")
+                viewModel.user = user
+                viewModel.listenToRecipes()
+            }
             viewModel.listenToRecipes()
             val apiRecipes by viewModel.recipes.observeAsState(initial = emptyList())
             val userRecipes by viewModel.userRecipes.observeAsState(initial = emptyList())
@@ -132,6 +138,14 @@ class MainActivity : ComponentActivity() {
                 )
                 {
                     Text(text = stringResource(R.string.Save))
+                }
+                Button (
+                    onClick = {
+                        signIn()
+                    }
+                )
+                {
+                    Text(text = "Logon")
                 }
             }
         }
@@ -267,7 +281,6 @@ class MainActivity : ComponentActivity() {
 
         signInLauncher.launch(signinIntent)
     }
-
     private val signInLauncher = registerForActivityResult (
         FirebaseAuthUIActivityResultContract()
     ) {
@@ -278,10 +291,15 @@ class MainActivity : ComponentActivity() {
     private fun signInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
-            user = FirebaseAuth.getInstance().currentUser
+            firebaseUser = FirebaseAuth.getInstance().currentUser
+            firebaseUser?.let {
+                val user = User(it.uid, it.displayName)
+                viewModel.user = user
+                viewModel.saveUser()
+                viewModel.listenToRecipes()
+            }
         } else {
             Log.e("MainActivity.kt", "Error logging in " + response?.error?.errorCode)
-
         }
     }
 
