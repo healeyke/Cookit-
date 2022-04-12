@@ -140,6 +140,8 @@ class MainActivity : ComponentActivity() {
                     Text(text = stringResource(R.string.Save))
                 }
                 Button (
+                    modifier = Modifier
+                        .padding(10.dp),
                     onClick = {
                         signIn()
                     }
