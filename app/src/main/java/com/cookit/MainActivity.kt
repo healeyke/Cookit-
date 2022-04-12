@@ -69,15 +69,14 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember { mutableStateOf("") }
-        var cuisine by remember { mutableStateOf("") }
+        var category by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
         var ingredients by remember { mutableStateOf("") }
-        var instructions by remember { mutableStateOf("") }
-
+        var instructions by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
-            TextFieldWithDropdownUsage(label = stringResource(R.string.recipeName))
+            TextFieldWithDropdownUsage(label = stringResource(R.string.recipeName), selectedRecipe = selectedRecipe)
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -154,9 +153,9 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TextFieldWithDropdownUsage(label: String = "", take: Int = 3) {
+    fun TextFieldWithDropdownUsage(label: String = "", take: Int = 3, selectedRecipe: Recipe = Recipe()) {
         val dropDownOptions = remember { mutableStateOf(listOf<Recipe>()) }
-        val textFieldValue = remember { mutableStateOf(TextFieldValue()) }
+        val textFieldValue = remember(selectedRecipe.fireStoreID) { mutableStateOf(TextFieldValue(selectedRecipe.name)) }
         val dropDownExpanded = remember { mutableStateOf(false) }
         fun onDropdownDismissRequest() {
             dropDownExpanded.value = false
