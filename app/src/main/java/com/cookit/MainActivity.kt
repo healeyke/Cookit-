@@ -131,6 +131,7 @@ class MainActivity : ComponentActivity() {
                             this.category = category
                             this.cuisine = cuisine
                             this.instructions = instructions
+                            this.ingredients = viewModel.ingredientMapper.stringToMap(ingredients)
                         }
                         viewModel.saveRecipe()
                     }
