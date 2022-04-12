@@ -127,13 +127,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
-                        var recipe = Recipe().apply {
+                        viewModel.selectedRecipe.apply {
                             this.name = inRecipeName
                             this.category = category
                             this.cuisine = cuisine
                             this.instructions = instructions
                         }
-                        viewModel.save(recipe)
+                        viewModel.saveRecipe()
                     }
                 )
                 {

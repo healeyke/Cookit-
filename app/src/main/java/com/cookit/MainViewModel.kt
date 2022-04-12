@@ -69,18 +69,18 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         }
     }
 
-    fun save(recipe: Recipe) {
+    fun saveRecipe() {
         user?.let { user ->
-            val document = if (recipe.fireStoreID.isBlank()) {
+            val document = if (selectedRecipe.fireStoreID.isBlank()) {
                 // create a new meal
                 firestore.collection("users").document(user.uid).collection("recipes").document()
             } else {
                 // update an existing meal.
                 firestore.collection("users").document(user.uid).collection("recipes")
-                    .document(recipe.fireStoreID)
+                    .document(selectedRecipe.fireStoreID)
             }
-            recipe.fireStoreID = document.id
-            val handle = document.set(recipe)
+            selectedRecipe.fireStoreID = document.id
+            val handle = document.set(selectedRecipe)
             handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
             handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
         }
