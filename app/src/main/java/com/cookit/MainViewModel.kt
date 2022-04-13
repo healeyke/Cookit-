@@ -33,7 +33,6 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-        //listenToRecipes()
     }
 
     internal fun listenToRecipes() {
