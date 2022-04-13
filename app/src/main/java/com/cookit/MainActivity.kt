@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
     ) {
         var category by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
         var cuisine by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember { mutableStateOf("") }
+        var ingredients by remember (selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
         var instructions by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
