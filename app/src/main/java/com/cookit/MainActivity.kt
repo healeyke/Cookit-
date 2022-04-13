@@ -251,12 +251,11 @@ class MainActivity : ComponentActivity() {
                         DropdownMenuItem(onClick = {
                             expanded = false
                             if (recipe.name == viewModel.NEW_RECIPE) {
-                                // create a new specimen object
-                                recipeText = viewModel.NEW_RECIPE
+                                // create a new recipe object
+                                recipeText = ""
                             } else {
-                                // we have selected an existing specimen.
+                                // we have selected an existing recipe
                                 recipeText = recipe.toString()
-                               // selectedRecipe = Recipe()
                                 inRecipeName = recipe.name
                             }
 
