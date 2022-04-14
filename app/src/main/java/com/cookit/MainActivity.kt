@@ -69,10 +69,10 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
-        var cuisine by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember (selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
-        var instructions by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
+        var category by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember (selectedRecipe.recipeID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
+        var instructions by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
@@ -221,7 +221,7 @@ class MainActivity : ComponentActivity() {
                                 TextRange(text.toString().length)
                             )
                         )
-                        selectedRecipe = text
+                        viewModel.selectedRecipe = text
                     }) {
                         Text(text = text.toString())
                     }
@@ -258,9 +258,7 @@ class MainActivity : ComponentActivity() {
                                 recipeText = recipe.toString()
                                 inRecipeName = recipe.name
                             }
-
                             viewModel.selectedRecipe = recipe
-
                         }) {
                             Text(text = recipe.toString())
                         }
