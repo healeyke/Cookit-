@@ -178,12 +178,14 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Button(
+                    modifier = Modifier
+                        .padding(10.dp),
                     onClick = {
                         takePhoto()
                     }
                 )
                 {
-                    Text(text = "photo")
+                    Text(text = "Photo")
                 }
             }
             AsyncImage(model = strUri, contentDescription = "Recipe Image")
