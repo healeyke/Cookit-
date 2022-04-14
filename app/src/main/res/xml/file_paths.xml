@@ -2,4 +2,10 @@
     <external-files-path
         name="my_root_images"
         path="/"/>
+    <external-files-path
+        name="my_images"
+        path="Android/data/app.Cookit/files/Pictures"/>
+    <external-files-path
+        name="my_debug_images"
+        path="/storage/emulated/0/Android/data/app.Cookit/files/Pictures"/>
 </paths>
