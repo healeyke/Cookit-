@@ -73,8 +73,9 @@ class MainActivity : ComponentActivity() {
         var cuisine by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
         var ingredients by remember (selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
         var instructions by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
+        var youtubeURL by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.youtubeURL) }
 
-        Column {
+            Column {
             RecipeSpinner(recipes = userRecipes)
             TextFieldWithDropdownUsage(label = stringResource(R.string.recipeName), selectedRecipe = selectedRecipe)
             OutlinedTextField(
@@ -105,11 +106,19 @@ class MainActivity : ComponentActivity() {
             OutlinedTextField(
                 value = instructions,
                 onValueChange = { instructions = it },
-                label = { Text(text = stringResource(R.string.istructions)) },
+                label = { Text(text = stringResource(R.string.instructions)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
                     .height(100.dp)
+            )
+            OutlinedTextField(
+                value = youtubeURL,
+                onValueChange = { youtubeURL = it },
+                label = { Text(text = stringResource(R.string.youtubeURL)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp)
             )
             Row {
                 Button(
@@ -132,6 +141,7 @@ class MainActivity : ComponentActivity() {
                             this.cuisine = cuisine
                             this.instructions = instructions
                             this.ingredients = viewModel.ingredientMapper.stringToMap(ingredients)
+                            this.youtubeURL = youtubeURL
                         }
                         viewModel.saveRecipe()
                     }
