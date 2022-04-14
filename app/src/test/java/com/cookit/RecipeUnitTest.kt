@@ -14,6 +14,7 @@ class RecipeUnitTest {
             "Japanese",
             "Boil noodles for 3-5 minutes, add tare and soup to the serving bowl in the mean time, strain noodles and place in serving bowl, add chashu pork and other toppings, enjoy!",
             "",
+            "",
             mutableMapOf(
                 "Chashu Pork" to "2 cuts",
                 "Soup base" to "300ml",
