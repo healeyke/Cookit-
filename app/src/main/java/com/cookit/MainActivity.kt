@@ -1,10 +1,15 @@
 package com.cookit
 
+import android.Manifest
+import android.app.Instrumentation
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -22,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
+import androidx.core.content.ContextCompat
 import com.cookit.dto.Recipe
 import com.cookit.dto.User
 import com.cookit.ui.theme.CookitTheme
@@ -122,6 +128,7 @@ class MainActivity : ComponentActivity() {
                 {
                     Text(text = stringResource(R.string.Search))
                 }
+
                 Button(
                     modifier = Modifier
                         .padding(10.dp),
@@ -139,6 +146,7 @@ class MainActivity : ComponentActivity() {
                 {
                     Text(text = stringResource(R.string.Save))
                 }
+
                 Button (
                     modifier = Modifier
                         .padding(10.dp),
@@ -149,9 +157,54 @@ class MainActivity : ComponentActivity() {
                 {
                     Text(text = "Logon")
                 }
+
+                Button(
+                    onClick = {
+                        takePhoto()
+                    }
+                )
+                {
+                    Text(text = "photo")
+                }
             }
         }
     }
+
+    private fun takePhoto() {
+        if(hasCameraPermission()==PERMISSION_GRANTED && hasExternalStoragePermission()==PERMISSION_GRANTED)
+        {
+            invokeCamera()
+        }else{
+            requestMultiplePermissionsLauncher.launch(arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            ))
+        }
+    }
+
+    private val requestMultiplePermissionsLauncher= registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+        resultMap->
+        var permissionGranted=false
+        resultMap.forEach{
+            if(it.value==true){
+                permissionGranted=it.value
+            }else{
+                permissionGranted=false
+                return@forEach
+            }
+        }
+        if(permissionGranted){
+            invokeCamera()
+        }else{
+            Toast.makeText(this,getString(R.string.cameraPermissionsDenied),Toast.LENGTH_LONG).show()
+        }
+    }
+    private fun invokeCamera() {
+        TODO("Not yet implemented")
+    }
+
+    fun hasCameraPermission()= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+    fun hasExternalStoragePermission()=ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Composable
     fun TextFieldWithDropdownUsage(label: String = "", take: Int = 3, selectedRecipe: Recipe = Recipe()) {
