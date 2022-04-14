@@ -1,7 +1,6 @@
 package com.cookit
 
 import android.Manifest
-import android.app.Instrumentation
 import android.content.ContentValues.TAG
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.res.Configuration
@@ -45,7 +44,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : ComponentActivity() {
 
@@ -87,14 +85,23 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
-        var cuisine by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember (selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
-        var instructions by remember (selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
+        var category by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember(selectedRecipe.fireStoreID) {
+            mutableStateOf(
+                viewModel.ingredientMapper.mapToString(
+                    selectedRecipe.ingredients
+                )
+            )
+        }
+        var instructions by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
-            TextFieldWithDropdownUsage(label = stringResource(R.string.recipeName), selectedRecipe = selectedRecipe)
+            TextFieldWithDropdownUsage(
+                label = stringResource(R.string.recipeName),
+                selectedRecipe = selectedRecipe
+            )
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -159,7 +166,7 @@ class MainActivity : ComponentActivity() {
                     Text(text = stringResource(R.string.Save))
                 }
 
-                Button (
+                Button(
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
@@ -178,46 +185,51 @@ class MainActivity : ComponentActivity() {
                 {
                     Text(text = "photo")
                 }
-                AsyncImage(model = strUri, contentDescription = "Recipe Image")
             }
+            AsyncImage(model = strUri, contentDescription = "Recipe Image")
         }
     }
 
     private fun takePhoto() {
-        if(hasCameraPermission()==PERMISSION_GRANTED && hasExternalStoragePermission()==PERMISSION_GRANTED)
-        {
+        if (hasCameraPermission() == PERMISSION_GRANTED && hasExternalStoragePermission() == PERMISSION_GRANTED) {
             invokeCamera()
-        }else{
-            requestMultiplePermissionsLauncher.launch(arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ))
+        } else {
+            requestMultiplePermissionsLauncher.launch(
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                )
+            )
         }
     }
 
-    private val requestMultiplePermissionsLauncher= registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
-        resultMap->
-        var permissionGranted=false
-        resultMap.forEach{
-            if(it.value==true){
-                permissionGranted=it.value
-            }else{
-                permissionGranted=false
-                return@forEach
+    private val requestMultiplePermissionsLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()) {
+                resultMap ->
+                var permissionGranted = false
+                resultMap.forEach {
+                if (it.value) {
+                    permissionGranted = true
+                } else {
+                    permissionGranted = false
+                    return@forEach
+                }
+            }
+            if (permissionGranted) {
+                invokeCamera()
+            } else {
+                Toast.makeText(this, getString(R.string.cameraPermissionsDenied), Toast.LENGTH_LONG)
+                    .show()
             }
         }
-        if(permissionGranted){
-            invokeCamera()
-        }else{
-            Toast.makeText(this,getString(R.string.cameraPermissionsDenied),Toast.LENGTH_LONG).show()
-        }
-    }
+
     private fun invokeCamera() {
         val file = createImageFile()
         try {
-            uri = FileProvider.getUriForFile(this,"com.cookit.fileProvider",file)
-        }catch (e:Exception){
-            Log.e(TAG,"Error:${e.message}") //TAG IMPORT
+            uri = FileProvider.getUriForFile(this, "com.cookit.fileprovider", file)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error:${e.message}") //TAG IMPORT
             var foo = e.message
         }
         getCameraImage.launch(uri)
@@ -235,23 +247,29 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private val getCameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()){
-        success ->
-        if(success) {
-            Log.i(TAG,"Image Location: $uri")
-            strUri = uri.toString()
-        }else{
-            Log.e(TAG,"Image not saved. $uri")
+    private val getCameraImage =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.i(TAG, "Image Location: $uri")
+                strUri = uri.toString()
+            } else {
+                Log.e(TAG, "Image not saved. $uri")
+            }
         }
-    }
 
-    fun hasCameraPermission()= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-    fun hasExternalStoragePermission()=ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun hasCameraPermission() = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+    fun hasExternalStoragePermission() =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Composable
-    fun TextFieldWithDropdownUsage(label: String = "", take: Int = 3, selectedRecipe: Recipe = Recipe()) {
+    fun TextFieldWithDropdownUsage(
+        label: String = "",
+        take: Int = 3,
+        selectedRecipe: Recipe = Recipe()
+    ) {
         val dropDownOptions = remember { mutableStateOf(listOf<Recipe>()) }
-        val textFieldValue = remember(selectedRecipe.fireStoreID) { mutableStateOf(TextFieldValue(selectedRecipe.name)) }
+        val textFieldValue =
+            remember(selectedRecipe.fireStoreID) { mutableStateOf(TextFieldValue(selectedRecipe.name)) }
         val dropDownExpanded = remember { mutableStateOf(false) }
         fun onDropdownDismissRequest() {
             dropDownExpanded.value = false
@@ -377,10 +395,11 @@ class MainActivity : ComponentActivity() {
 
         signInLauncher.launch(signinIntent)
     }
-    private val signInLauncher = registerForActivityResult (
+
+    private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) {
-            res -> this.signInResult(res)
+    ) { res ->
+        this.signInResult(res)
     }
 
 
