@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
             OutlinedTextField(
                 value = instructions,
                 onValueChange = { instructions = it },
-                label = { Text(text = stringResource(R.string.istructions)) },
+                label = { Text(text = stringResource(R.string.instructions)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
@@ -253,7 +253,6 @@ class MainActivity : ComponentActivity() {
                             if (recipe.name == viewModel.NEW_RECIPE) {
                                 // create a new recipe object
                                 recipeText = ""
-
                             } else {
                                 // we have selected an existing recipe
                                 recipeText = recipe.toString()
