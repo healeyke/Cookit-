@@ -32,6 +32,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
+import com.cookit.dto.Photo
 import com.cookit.dto.Recipe
 import com.cookit.dto.User
 import com.cookit.ui.theme.CookitTheme
@@ -248,6 +249,8 @@ class MainActivity : ComponentActivity() {
             if (success) {
                 Log.i(TAG, "Image Location: $uri")
                 strUri = uri.toString()
+                val photo = Photo(localUri = uri.toString())
+                viewModel.photos.add(photo)
             } else {
                 Log.e(TAG, "Image not saved. $uri")
             }
