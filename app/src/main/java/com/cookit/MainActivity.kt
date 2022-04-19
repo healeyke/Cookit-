@@ -85,16 +85,10 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
-        var cuisine by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember(selectedRecipe.fireStoreID) {
-            mutableStateOf(
-                viewModel.ingredientMapper.mapToString(
-                    selectedRecipe.ingredients
-                )
-            )
-        }
-        var instructions by remember(selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
+        var category by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
+        var instructions by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
@@ -130,7 +124,7 @@ class MainActivity : ComponentActivity() {
             OutlinedTextField(
                 value = instructions,
                 onValueChange = { instructions = it },
-                label = { Text(text = stringResource(R.string.istructions)) },
+                label = { Text(text = stringResource(R.string.instructions)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)

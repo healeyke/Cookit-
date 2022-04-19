@@ -6,6 +6,6 @@
     <string name="Search">Search</string>
     <string name="Save">Save</string>
     <string name="ingredients">Ingredients</string>
-    <string name="istructions">Cooking Instructions</string>
+    <string name="instructions">Cooking Instructions</string>
     <string name="cameraPermissionsDenied">Unable to load camera without permission.</string>
 </resources>
