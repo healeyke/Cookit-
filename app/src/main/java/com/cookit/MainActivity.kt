@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -15,8 +16,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,14 +73,30 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
-        var cuisine by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
-        var instructions by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
-        var youtubeURL by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.youtubeURL) }
-            Column {
+        val uriHandler = LocalUriHandler.current
+        var category by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
+        var instructions by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.instructions) }
+        var youtubeURL by remember(selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.youtubeURL) }
+        Column {
             RecipeSpinner(recipes = userRecipes)
-            TextFieldWithDropdownUsage(label = stringResource(R.string.recipeName), selectedRecipe = selectedRecipe)
+            TextFieldWithDropdownUsage(
+                label = stringResource(R.string.recipeName),
+                selectedRecipe = selectedRecipe
+            )
             OutlinedTextField(
                 value = category,
                 onValueChange = { category = it },
@@ -119,17 +139,17 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp)
             )
+            ClickableText(
+                text = linkBuilder(
+                    youtubeURL,
+                    stringResource(R.string.youtubeLinkText)
+                ), onClick = {
+                    linkBuilder(youtubeURL).getStringAnnotations("URL", it, it).firstOrNull()
+                        ?.let { annotation ->
+                            uriHandler.openUri(annotation.item)
+                        }
+                })
             Row {
-                Button(
-                    modifier = Modifier
-                        .padding(10.dp),
-                    onClick = {
-                        //TODO
-                    }
-                )
-                {
-                    Text(text = stringResource(R.string.Search))
-                }
                 Button(
                     modifier = Modifier
                         .padding(10.dp),
@@ -148,7 +168,7 @@ class MainActivity : ComponentActivity() {
                 {
                     Text(text = stringResource(R.string.Save))
                 }
-                Button (
+                Button(
                     modifier = Modifier
                         .padding(10.dp),
                     onClick = {
@@ -163,9 +183,14 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TextFieldWithDropdownUsage(label: String = "", take: Int = 3, selectedRecipe: Recipe = Recipe()) {
+    fun TextFieldWithDropdownUsage(
+        label: String = "",
+        take: Int = 3,
+        selectedRecipe: Recipe = Recipe()
+    ) {
         val dropDownOptions = remember { mutableStateOf(listOf<Recipe>()) }
-        val textFieldValue = remember(selectedRecipe.fireStoreID) { mutableStateOf(TextFieldValue(selectedRecipe.name)) }
+        val textFieldValue =
+            remember(selectedRecipe.fireStoreID) { mutableStateOf(TextFieldValue(selectedRecipe.name)) }
         val dropDownExpanded = remember { mutableStateOf(false) }
         fun onDropdownDismissRequest() {
             dropDownExpanded.value = false
@@ -289,10 +314,11 @@ class MainActivity : ComponentActivity() {
 
         signInLauncher.launch(signinIntent)
     }
-    private val signInLauncher = registerForActivityResult (
+
+    private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) {
-            res -> this.signInResult(res)
+    ) { res ->
+        this.signInResult(res)
     }
 
 
@@ -310,6 +336,23 @@ class MainActivity : ComponentActivity() {
             Log.e("MainActivity.kt", "Error logging in " + response?.error?.errorCode)
         }
     }
+
+    private fun linkBuilder(
+        link: String,
+        linkText: String = "Click here to view a YouTube video for this recipe!"
+    ): AnnotatedString {
+        val output = buildAnnotatedString {
+            append(linkText)
+            addStringAnnotation(
+                tag = "URL",
+                annotation = link,
+                start = 0,
+                end = linkText.length - 1
+            )
+        }
+        return output
+    }
+
 
     @Preview(name = "Light Mode", showBackground = true)
     @Preview(
