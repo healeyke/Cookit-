@@ -69,10 +69,10 @@ class MainActivity : ComponentActivity() {
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
-        var category by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.category) }
-        var cuisine by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.cuisine) }
-        var ingredients by remember (selectedRecipe.recipeID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
-        var instructions by remember (selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.instructions) }
+        var category by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
+        var instructions by remember (key1 = selectedRecipe.recipeID, key2 = selectedRecipe.fireStoreID) { mutableStateOf(selectedRecipe.instructions) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
@@ -253,6 +253,7 @@ class MainActivity : ComponentActivity() {
                             if (recipe.name == viewModel.NEW_RECIPE) {
                                 // create a new recipe object
                                 recipeText = ""
+
                             } else {
                                 // we have selected an existing recipe
                                 recipeText = recipe.toString()
