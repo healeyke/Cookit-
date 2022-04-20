@@ -13,12 +13,11 @@ import com.cookit.dto.Photo
 import com.cookit.dto.Recipe
 import com.cookit.dto.User
 import com.cookit.service.IRecipeService
-import com.cookit.service.TextFieldIngredientMapService
 import com.cookit.service.RecipeService
+import com.cookit.service.TextFieldIngredientMapService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 
 /**
@@ -27,7 +26,7 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
-    val photos: ArrayList<Photo> = ArrayList<Photo>()
+    val photos: ArrayList<Photo> = ArrayList()
     var user: User? = null
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
     val userRecipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
@@ -36,7 +35,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     val ingredientMapper = TextFieldIngredientMapService()
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private var storageReference = FirebaseStorage.getInstance().getReference()
+    private var storageReference = FirebaseStorage.getInstance().reference
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
@@ -91,7 +90,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
             val handle = document.set(selectedRecipe)
             handle.addOnSuccessListener {
                 Log.d("Firebase", "Document Saved")
-                if(photos.isEmpty()){
+                if (photos.isEmpty()) {
                     uploadPhotos()
                 }
             }
@@ -100,37 +99,36 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     }
 
     private fun uploadPhotos() {
-        photos.forEach {
-                photo ->
+        photos.forEach { photo ->
             var uri = Uri.parse(photo.localUri)
             val imageRef = storageReference.child("images/${user?.uid}/${uri.lastPathSegment}")
             val uploadTask = imageRef.putFile(uri)
             uploadTask.addOnSuccessListener {
                 Log.i(TAG, "Image Upload $imageRef")
                 val downloadUrl = imageRef.downloadUrl
-                downloadUrl.addOnSuccessListener {
-                    remoteUri ->
+                downloadUrl.addOnSuccessListener { remoteUri ->
                     photo.remoteUri = remoteUri.toString()
                     updatePhotoDatabase(photo)
                 }
             }
-            uploadTask.addOnFailureListener{
+            uploadTask.addOnFailureListener {
                 Log.e(TAG, it.message ?: "No message")
             }
         }
     }
 
     private fun updatePhotoDatabase(photo: Photo) {
-        user?.let {
-            user ->
-            var photoCollection = firestore.collection("users").document(user.uid).collection("recipes")
-                .document(selectedRecipe.fireStoreID).collection("photos")
+        user?.let { user ->
+            var photoCollection =
+                firestore.collection("users").document(user.uid).collection("recipes")
+                    .document(selectedRecipe.fireStoreID).collection("photos")
             var handle = photoCollection.add(photo)
             handle.addOnSuccessListener {
                 Log.i(TAG, "Successfully updated photo metadata")
-                photo.id =it.id
+                photo.id = it.id
                 firestore.collection("users").document(user.uid).collection("recipes")
-                    .document(selectedRecipe.fireStoreID).collection("photos").document(photo.id).set(photo)
+                    .document(selectedRecipe.fireStoreID).collection("photos").document(photo.id)
+                    .set(photo)
             }
             handle.addOnFailureListener {
                 Log.e(TAG, "Error updating photo data: ${it.message}")
@@ -155,7 +153,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
      */
     fun getPredictionList(query: String, take: Int): List<Recipe> {
         var recipeList = recipes.value
-        if (query.isNullOrEmpty()) return listOf()
+        if (query.isEmpty()) return listOf()
         recipeList?.let { list ->
             when {
                 list.any { it.name.lowercase().startsWith(query) && it.name != query }

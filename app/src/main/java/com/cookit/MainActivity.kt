@@ -56,7 +56,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var currentImagePath: String
     private val viewModel: MainViewModel by viewModel()
     private var inRecipeName: String = ""
-    private var selectedRecipe: Recipe? = null
     private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var strUri by mutableStateOf("")
 
@@ -70,7 +69,6 @@ class MainActivity : ComponentActivity() {
                 viewModel.listenToRecipes()
             }
             viewModel.listenToRecipes()
-            val apiRecipes by viewModel.recipes.observeAsState(initial = emptyList())
             val userRecipes by viewModel.userRecipes.observeAsState(initial = emptyList())
             CookitTheme {
                 // A surface container using the 'background' color from the theme
@@ -78,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields(apiRecipes, viewModel.selectedRecipe, userRecipes)
+                    RecipeFields(viewModel.selectedRecipe, userRecipes)
                 }
             }
         }
@@ -86,7 +84,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     internal fun RecipeFields(
-        apiRecipes: List<Recipe> = ArrayList(),
         selectedRecipe: Recipe = Recipe(),
         userRecipes: List<Recipe> = ArrayList()
     ) {
@@ -108,7 +105,7 @@ class MainActivity : ComponentActivity() {
             key2 = selectedRecipe.fireStoreID
         ) { mutableStateOf(selectedRecipe.instructions) }
         var youtubeURL by remember(selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.youtubeURL) }
-        
+
         Column {
             RecipeSpinner(recipes = userRecipes)
             TextFieldWithDropdownUsage(
@@ -229,10 +226,10 @@ class MainActivity : ComponentActivity() {
 
     private val requestMultiplePermissionsLauncher =
         registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()) {
-                resultMap ->
-                var permissionGranted = false
-                resultMap.forEach {
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { resultMap ->
+            var permissionGranted = false
+            resultMap.forEach {
                 if (it.value) {
                     permissionGranted = true
                 } else {
