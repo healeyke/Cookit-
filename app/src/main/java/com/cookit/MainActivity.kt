@@ -140,6 +140,8 @@ class MainActivity : ComponentActivity() {
                     .padding(start = 10.dp, end = 10.dp)
             )
             ClickableText(
+                modifier = Modifier
+                    .padding(10.dp),
                 text = linkBuilder(
                     youtubeURL,
                     stringResource(R.string.youtubeLinkText)
