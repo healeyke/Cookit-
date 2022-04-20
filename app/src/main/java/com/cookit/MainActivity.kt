@@ -91,6 +91,7 @@ class MainActivity : ComponentActivity() {
             key2 = selectedRecipe.fireStoreID
         ) { mutableStateOf(selectedRecipe.instructions) }
         var youtubeURL by remember(selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.youtubeURL) }
+        
         Column {
             RecipeSpinner(recipes = userRecipes)
             TextFieldWithDropdownUsage(
