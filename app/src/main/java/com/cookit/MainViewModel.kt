@@ -1,5 +1,7 @@
 package com.cookit
 
+import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cookit.dto.Photo
 import com.cookit.dto.Recipe
 import com.cookit.dto.User
 import com.cookit.service.IRecipeService
@@ -14,6 +17,8 @@ import com.cookit.service.TextFieldIngredientMapService
 import com.cookit.service.RecipeService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 
 /**
@@ -22,6 +27,7 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
 
+    val photos: ArrayList<Photo> = ArrayList<Photo>()
     var user: User? = null
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
     val userRecipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
@@ -30,6 +36,7 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     val ingredientMapper = TextFieldIngredientMapService()
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var storageReference = FirebaseStorage.getInstance().getReference()
 
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
@@ -82,8 +89,52 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
             }
             selectedRecipe.fireStoreID = document.id
             val handle = document.set(selectedRecipe)
-            handle.addOnSuccessListener { Log.d("Firebase", "Document Saved") }
+            handle.addOnSuccessListener {
+                Log.d("Firebase", "Document Saved")
+                if(photos.isEmpty()){
+                    uploadPhotos()
+                }
+            }
             handle.addOnFailureListener { Log.e("firebase", "Save failed $it") }
+        }
+    }
+
+    private fun uploadPhotos() {
+        photos.forEach {
+                photo ->
+            var uri = Uri.parse(photo.localUri)
+            val imageRef = storageReference.child("images/${user?.uid}/${uri.lastPathSegment}")
+            val uploadTask = imageRef.putFile(uri)
+            uploadTask.addOnSuccessListener {
+                Log.i(TAG, "Image Upload $imageRef")
+                val downloadUrl = imageRef.downloadUrl
+                downloadUrl.addOnSuccessListener {
+                    remoteUri ->
+                    photo.remoteUri = remoteUri.toString()
+                    updatePhotoDatabase(photo)
+                }
+            }
+            uploadTask.addOnFailureListener{
+                Log.e(TAG, it.message ?: "No message")
+            }
+        }
+    }
+
+    private fun updatePhotoDatabase(photo: Photo) {
+        user?.let {
+            user ->
+            var photoCollection = firestore.collection("users").document(user.uid).collection("recipes")
+                .document(selectedRecipe.fireStoreID).collection("photos")
+            var handle = photoCollection.add(photo)
+            handle.addOnSuccessListener {
+                Log.i(TAG, "Successfully updated photo metadata")
+                photo.id =it.id
+                firestore.collection("users").document(user.uid).collection("recipes")
+                    .document(selectedRecipe.fireStoreID).collection("photos").document(photo.id).set(photo)
+            }
+            handle.addOnFailureListener {
+                Log.e(TAG, "Error updating photo data: ${it.message}")
+            }
         }
     }
 
