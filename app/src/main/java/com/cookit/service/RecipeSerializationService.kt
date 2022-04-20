@@ -35,6 +35,7 @@ class RecipeSerializationService : JsonDeserializer<Recipe> {
             inputJSON.get("strArea").asString,
             inputJSON.get("strInstructions").asString,
             inputJSON.get("strMealThumb").asString,
+            inputJSON.get("strYoutube").asString,
             ingredientMap
         )
     }

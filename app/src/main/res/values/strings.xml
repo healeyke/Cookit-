@@ -3,8 +3,9 @@
     <string name="category">Category (ex: Dinner)</string>
     <string name="cuisine">Cuisine (ex: Japanese)</string>
     <string name="recipeName">Recipe Name</string>
-    <string name="Search">Search</string>
-    <string name="Save">Save</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Cooking Instructions</string>
+    <string name="cameraPermissionsDenied">Unable to load camera without permission.</string>
+    <string name="youtubeURL">YouTube URL</string>
+    <string name="youtubeLinkText">Click here to view a YouTube video for this recipe!</string>
 </resources>
