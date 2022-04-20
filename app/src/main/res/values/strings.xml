@@ -7,4 +7,6 @@
     <string name="Save">Save</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Cooking Instructions</string>
+    <string name="youtubeURL">YouTube URL</string>
+    <string name="youtubeLinkText">Click here to view a YouTube video for this recipe!</string>
 </resources>

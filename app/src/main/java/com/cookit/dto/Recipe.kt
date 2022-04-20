@@ -10,6 +10,7 @@ data class Recipe(
     @SerializedName("strArea")var cuisine : String = "",
     @SerializedName("strInstructions")var instructions : String = "",
     @SerializedName("strMealThumb")var imageURL : String = "",
+    @SerializedName("strYoutube")var youtubeURL : String = "",
     @Expose var ingredients : MutableMap<String, String> = LinkedHashMap(),
     @Transient var fireStoreID: String = "",
     ) {
