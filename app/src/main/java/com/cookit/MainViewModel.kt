@@ -37,10 +37,6 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var storageReference = FirebaseStorage.getInstance().reference
 
-    /**
-     * Fetches recipes from IRecipeDAO and adds it to an arraylist
-     */
-    fun fetchRecipes() {
     init {
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
     }

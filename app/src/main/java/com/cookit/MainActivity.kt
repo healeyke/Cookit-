@@ -52,34 +52,60 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : ComponentActivity() {
-    private val viewModel : MainViewModel by viewModel<MainViewModel>()
 
     private var uri: Uri? = null
     private lateinit var currentImagePath: String
     private val viewModel: MainViewModel by viewModel()
     private var inRecipeName: String = ""
-    private var selectedRecipe: Recipe? = null
+    private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private var strUri by mutableStateOf("")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             viewModel.fetchRecipes()
-            val recipes by viewModel.recipes.observeAsState(initial = emptyList())
+            firebaseUser?.let {
+                val user = User(it.uid, "")
+                viewModel.user = user
+                viewModel.listenToRecipes()
+            }
+            viewModel.listenToRecipes()
+            val userRecipes by viewModel.userRecipes.observeAsState(initial = emptyList())
             CookitTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields( recipes)
+                    RecipeFields(viewModel.selectedRecipe, userRecipes)
                 }
             }
         }
     }
 
     @Composable
-    fun RecipeFields(recipes: List<Recipe> = ArrayList<Recipe>()) {
-        var category by remember { mutableStateOf("") }
-        var cuisine by remember { mutableStateOf("") }
+    internal fun RecipeFields(
+        selectedRecipe: Recipe = Recipe(),
+        userRecipes: List<Recipe> = ArrayList()
+    ) {
+        val uriHandler = LocalUriHandler.current
+        var category by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.category) }
+        var cuisine by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.cuisine) }
+        var ingredients by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(viewModel.ingredientMapper.mapToString(selectedRecipe.ingredients)) }
+        var instructions by remember(
+            key1 = selectedRecipe.recipeID,
+            key2 = selectedRecipe.fireStoreID
+        ) { mutableStateOf(selectedRecipe.instructions) }
+        var youtubeURL by remember(selectedRecipe.recipeID) { mutableStateOf(selectedRecipe.youtubeURL) }
 
         Column {
             RecipeSpinner(recipes = userRecipes)
@@ -441,13 +467,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun DefaultPreview() {
-        val recipes by viewModel.recipes.observeAsState(initial = emptyList())
         CookitTheme {
             Surface(
                 color = MaterialTheme.colors.background,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                this.RecipeFields(recipes)
+                RecipeFields()
             }
         }
     }
