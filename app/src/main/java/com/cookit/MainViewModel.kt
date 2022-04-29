@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewModel() {
     val recipes: MutableLiveData<ArrayList<Recipe>> = MutableLiveData<ArrayList<Recipe>>()
 
+    /**
+     * Fetches recipes from IRecipeDAO and adds it to an arraylist
+     */
     fun fetchRecipes() {
         viewModelScope.launch {
             var innerRecipeList = recipeService.fetchRecipes()

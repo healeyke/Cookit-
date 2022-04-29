@@ -37,14 +37,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    RecipeFields("Android", recipes)
+                    RecipeFields( recipes)
                 }
             }
         }
     }
 
     @Composable
-    fun RecipeFields(name: String, recipes: List<Recipe> = ArrayList<Recipe>()) {
+    fun RecipeFields(recipes: List<Recipe> = ArrayList<Recipe>()) {
         var category by remember { mutableStateOf("") }
         var cuisine by remember { mutableStateOf("") }
 
@@ -177,12 +177,13 @@ fun TextFieldWithDropdown(
     )
     @Composable
     fun DefaultPreview() {
+        val recipes by viewModel.recipes.observeAsState(initial = emptyList())
         CookitTheme {
             Surface(
                 color = MaterialTheme.colors.background,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                RecipeFields("Android")
+                this.RecipeFields(recipes)
             }
         }
     }
