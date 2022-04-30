@@ -68,6 +68,9 @@ class MainViewModel(var recipeService: IRecipeService = RecipeService()) : ViewM
         }
     }
 
+    /**
+     * Fetches recipes from IRecipeDAO and adds it to an arraylist
+     */
     internal fun fetchRecipes() {
         viewModelScope.launch {
             val innerRecipeList = recipeService.fetchRecipes()
